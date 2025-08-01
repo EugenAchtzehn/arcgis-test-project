@@ -27,8 +27,8 @@
   .controlPanel {
     width: 25%;
     height: calc(100vh - var(--navigation-height));
-    overflow-y: auto;
     background-color: #f0f0f0;
+    overflow-y: auto;
 
     .controlPanel__title {
       padding: 0.5rem;

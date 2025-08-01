@@ -59,16 +59,16 @@
 </script>
 
 <style scoped>
-  @import "https://js.arcgis.com/calcite-components/3.2.1/calcite.css";
-  @import "https://js.arcgis.com/4.33/@arcgis/core/assets/esri/themes/light/main.css";
-  @import "https://js.arcgis.com/4.33/map-components/main.css";
+  @import url("https://js.arcgis.com/calcite-components/3.2.1/calcite.css");
+  @import url("https://js.arcgis.com/4.33/@arcgis/core/assets/esri/themes/light/main.css");
+  @import url("https://js.arcgis.com/4.33/map-components/main.css");
 
   .container {
     display: flex;
 
     .map {
-      height: calc(100vh - var(--navigation-height));
       width: 75%;
+      height: calc(100vh - var(--navigation-height));
     }
   }
 </style>
