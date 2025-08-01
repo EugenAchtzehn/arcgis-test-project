@@ -16,6 +16,13 @@ export default defineConfig({
     }),
     vueDevTools(),
   ],
+  css: {
+    preprocessorOptions: {
+      scss: {
+        api: 'modern-compiler',
+      },
+    },
+  },
   server: {
     // open: true,
     port: 55688,
