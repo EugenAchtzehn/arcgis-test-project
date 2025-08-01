@@ -20,7 +20,7 @@ export default defineConfig({
     }),
     vueDevTools(),
     AutoImport({
-      imports: ["vue"],
+      imports: ["vue", "vue-router", "pinia"],
       resolvers: [ElementPlusResolver()],
     }),
     Components({
