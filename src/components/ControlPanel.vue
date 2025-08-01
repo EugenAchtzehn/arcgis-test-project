@@ -19,14 +19,15 @@
     num.value++;
   }
 
-  function eChangeSceneMode(updatedStatus: boolean) {
+  function eChangeSceneMode() {
     console.log(isSceneMode.value);
   }
 </script>
 <style lang="css" scoped>
   .controlPanel {
     width: 25%;
-    height: 100%;
+    height: calc(100vh - var(--navigation-height));
+    overflow-y: auto;
     background-color: #f0f0f0;
 
     .controlPanel__title {
