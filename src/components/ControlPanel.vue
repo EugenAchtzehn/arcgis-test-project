@@ -31,10 +31,10 @@
     background-color: #f0f0f0;
 
     .controlPanel__title {
+      padding: 0.5rem;
+      text-align: center;
       font-size: 2rem;
       font-weight: 500;
-      text-align: center;
-      padding: 0.5rem;
     }
 
     .controlPanel__controls {
