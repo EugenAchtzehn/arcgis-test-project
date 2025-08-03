@@ -1,10 +1,10 @@
-import DashboardView from "../DashboardView.vue";
+import Dashboard from "../DashboardView.vue";
 import { describe, it, expect } from "vitest";
 import { mount } from "@vue/test-utils";
 
 describe("DashboardView", () => {
   it("renders properly", () => {
-    const wrapper = mount(DashboardView);
+    const wrapper = mount(Dashboard);
     // expect(wrapper.text()).toContain('This is the dashboard page')
     // await incrementBtn.trigger('click')
 

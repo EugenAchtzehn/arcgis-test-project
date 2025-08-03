@@ -12,15 +12,35 @@
   </div>
 </template>
 <script setup lang="ts">
+  import { isDefined } from "@/lib/util/isDefined";
+  import { useMapStore } from "@/stores/mapStore";
+  import SceneView from "@arcgis/core/views/SceneView";
+
   const num = ref(0);
   const isSceneMode = ref(false);
+  const mapStore = useMapStore();
+
+  const props = defineProps<{
+    mapDiv: HTMLElement;
+  }>();
 
   function eClickIncrement() {
     num.value++;
   }
 
   function eChangeSceneMode() {
-    console.log(isSceneMode.value);
+    if (!isDefined(mapStore.mapView)) return;
+    const clonedViewpoint = mapStore.mapView.viewpoint.clone();
+    console.log(clonedViewpoint);
+    console.log(props.mapDiv);
+    // mapStore.mapView.destroy();
+    // mapStore.setMapView(
+    //   new SceneView({
+    //     container: props.mapDiv,
+    //     map: mapStore.map,
+    //     viewpoint: clonedViewpoint,
+    //   })
+    // );
   }
 </script>
 <style lang="css" scoped>
