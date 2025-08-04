@@ -6,21 +6,18 @@
 </template>
 
 <script setup lang="ts">
-  import { onMounted, ref } from "vue";
   import Map from "@arcgis/core/Map";
   import MapView from "@arcgis/core/views/MapView";
-  import WebMap from "@arcgis/core/WebMap";
+  import SceneView from "@arcgis/core/views/SceneView";
+  import Point from "@arcgis/core/geometry/Point";
   import FeatureLayer from "@arcgis/core/layers/FeatureLayer";
   import Graphic from "@arcgis/core/Graphic";
-  import Point from "@arcgis/core/geometry/Point";
-  import { isDefined } from "@/lib/util/isDefined";
-
+  import { isDefined } from "@/lib/utils/isDefined";
   import { useMapStore } from "@/stores/mapStore";
-  import ControlPanel from "@/components/ControlPanel.vue";
 
   const mapStore = useMapStore();
 
-  const mapDiv = ref(null);
+  const mapDiv = ref<HTMLDivElement | null>(null);
 
   const testPoints = [
     { id: 1, name: "台北101", lon: 121.5654, lat: 25.033 },
@@ -46,19 +43,42 @@
 
   onMounted(() => {
     const webMap = new Map({
-      basemap: "streets",
+      basemap: "topo-vector",
     });
 
-    const view = new MapView({
+    const initialCenter = [121.55, 25.05] as [number, number];
+    const initialZoom = 14;
+
+    // console.log(initialCenter, initialZoom);
+
+    mapStore.setCurrentCenter(initialCenter);
+    mapStore.setCurrentZoom(initialZoom);
+
+    // guard
+    if (!isDefined(mapStore.currentCenter) || !isDefined(mapStore.currentZoom)) return;
+
+    const mapView = new MapView({
       container: mapDiv.value,
       map: webMap,
-      zoom: 14,
-      center: [121.55, 25.05],
+      center: initialCenter,
+      zoom: initialZoom,
+      constraints: {
+        rotationEnabled: false,
+      },
+    });
+
+    const sceneView = new SceneView({
+      container: null,
+      map: webMap,
+      center: initialCenter,
+      zoom: initialZoom,
     });
 
     webMap.add(featureLayer);
     mapStore.setMap(webMap);
-    mapStore.setMapView(view);
+    debugger;
+    mapStore.setMapView(mapView);
+    mapStore.setSceneView(sceneView);
   });
 </script>
 
