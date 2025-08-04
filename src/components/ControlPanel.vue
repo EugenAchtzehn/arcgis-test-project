@@ -7,8 +7,16 @@
         <el-switch v-model="isSceneMode" @change="eChangeSceneMode" />
       </div>
       <div>
-        {{ mapStore.currentLng !== 0 ? mapStore.currentLng.toFixed(6) : "" }}
-        {{ mapStore.currentLat !== 0 ? mapStore.currentLat.toFixed(6) : "" }}
+        {{
+          mapStore.currentLng !== 0
+            ? mapStore.currentLng.toFixed(6)
+            : t("ControlPanel.NoValidLongitude")
+        }}
+        {{
+          mapStore.currentLat !== 0
+            ? mapStore.currentLat.toFixed(6)
+            : t("ControlPanel.NoValidLatitude")
+        }}
       </div>
     </div>
   </div>
@@ -19,6 +27,7 @@
 
   const mapStore = useMapStore();
   const isSceneMode = ref(false);
+  const { t } = useI18n();
 
   const props = defineProps<{
     mapDiv: HTMLDivElement | null;
