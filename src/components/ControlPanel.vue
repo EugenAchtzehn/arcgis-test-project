@@ -6,18 +6,16 @@
         <span>3D 模式</span>
         <el-switch v-model="isSceneMode" @change="eChangeSceneMode" />
       </div>
-      <div v-if="!isSceneMode">{{ mapViewLng }} {{ mapViewLat }}</div>
-      <!-- <div v-else>{{ sceneViewLng }} {{ sceneViewLat }}</div> -->
+      <div>
+        {{ mapStore.currentLng !== 0 ? mapStore.currentLng.toFixed(6) : "" }}
+        {{ mapStore.currentLat !== 0 ? mapStore.currentLat.toFixed(6) : "" }}
+      </div>
     </div>
   </div>
 </template>
 <script setup lang="ts">
   import { isDefined } from "@/lib/utils/isDefined";
   import { useMapStore } from "@/stores/mapStore";
-  import { useMapViewCoords, useSceneViewCoords } from "@/composables/mouse";
-
-  const { mapViewLng, mapViewLat } = useMapViewCoords();
-  // const { sceneViewLng, sceneViewLat } = useSceneViewCoords();
 
   const mapStore = useMapStore();
   const isSceneMode = ref(false);

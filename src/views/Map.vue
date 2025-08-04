@@ -76,7 +76,6 @@
 
     webMap.add(featureLayer);
     mapStore.setMap(webMap);
-    debugger;
     mapStore.setMapView(mapView);
     mapStore.setSceneView(sceneView);
   });
