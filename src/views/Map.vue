@@ -12,8 +12,11 @@
 
   const layerStore = useLayerStore();
 
-  onBeforeMount(async () => {
-    const { data: mapConfig } = await axios.get("/data/MapConfig.json");
+  onMounted(async () => {
+    const baseUrl = import.meta.env.VITE_BASE_URL;
+    // [!] if baseUrl is only '/', then skip it.
+    const skipSlashBaseUrl = baseUrl === "/" ? "" : baseUrl;
+    const { data: mapConfig } = await axios.get(`${skipSlashBaseUrl}/data/MapConfig.json`);
     layerStore.setLayers(mapConfig.layers);
   });
 

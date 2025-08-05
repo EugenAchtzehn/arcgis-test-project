@@ -15,6 +15,7 @@
   import { isDefined } from "@/lib/utils/isDefined";
   import { addLayerToMap } from "@/lib/maps/addLayerToMap";
   import { removeLayerFromMap } from "@/lib/maps/removeLayerFromMap";
+  import { buildUrlForLocalData } from "@/lib/utils/buildUrl";
 
   import SceneLayer from "@arcgis/core/layers/SceneLayer";
 
@@ -26,6 +27,10 @@
   }>();
 
   function eChangeVisible() {
+    if (props.layer.isLocal) {
+      const builtUrl = buildUrlForLocalData(props.layer.url);
+      console.log(builtUrl);
+    }
     // console.log(props.layer.visible);
   }
 

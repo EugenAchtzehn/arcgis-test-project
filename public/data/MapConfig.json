@@ -8,14 +8,14 @@
       "id": "1",
       "name": "點圖層",
       "type": "FeatureLayer",
-      "isLocal": false,
+      "isLocal": true,
       "url": "/data/points.geojson"
     },
     {
       "id": "2",
       "name": "多邊形圖層",
       "type": "FeatureLayer",
-      "isLocal": false,
+      "isLocal": true,
       "url": "/data/polygons.geojson"
     },
     {
