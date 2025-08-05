@@ -3,6 +3,7 @@ import { v4 as uuid } from "uuid";
 // Layer definition
 export interface Layer {
   id: string;
+  arcgis_id: string | null;
   draggable_uuid: string;
   name: string;
   type: string;
@@ -25,6 +26,7 @@ export class Layer implements Layer {
     // set by default value
     this.opacity = 1;
     this.visible = true;
+    this.arcgis_id = null;
   }
 }
 

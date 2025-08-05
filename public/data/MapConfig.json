@@ -17,6 +17,13 @@
       "type": "FeatureLayer",
       "isLocal": false,
       "url": "/data/polygons.geojson"
+    },
+    {
+      "id": "3",
+      "name": "LOD1_2023",
+      "type": "SceneLayer",
+      "isLocal": false,
+      "url": "https://www.historygis.udd.gov.taipei/arcgis/rest/services/Hosted/LOD1_2023/SceneServer/layers/0"
     }
   ]
 }

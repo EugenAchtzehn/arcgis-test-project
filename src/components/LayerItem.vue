@@ -1,24 +1,66 @@
 <template>
   <div class="layerItem">
-    <div class="layerItem__name">{{ layer.name }}</div>
-    <el-switch v-model="layer.visible" @change="eChangeVisible"></el-switch>
+    <el-checkbox
+      v-model="layerActive"
+      @change="eChangeActive"
+      :label="props.layer.name"
+    ></el-checkbox>
+    <el-switch v-model="props.layer.visible" @change="eChangeVisible"></el-switch>
   </div>
 </template>
 <script setup lang="ts">
   import { Layer } from "@/types/Layer";
+  import { useMapStore } from "@/stores/mapStore";
+  import { useLayerStore } from "@/stores/layerStore";
+  import { isDefined } from "@/lib/utils/isDefined";
+  import { addLayerToMap } from "@/lib/maps/addLayerToMap";
+  import { removeLayerFromMap } from "@/lib/maps/removeLayerFromMap";
 
+  import SceneLayer from "@arcgis/core/layers/SceneLayer";
+
+  const layerActive = ref<boolean>(false);
+  const mapStore = useMapStore();
+  const layerStore = useLayerStore();
   const props = defineProps<{
     layer: Layer;
   }>();
 
   function eChangeVisible() {
-    console.log(props.layer.visible);
+    // console.log(props.layer.visible);
+  }
+
+  function eChangeActive() {
+    if (layerActive.value && isDefined(mapStore.map)) {
+      // addLayerToMap(props.layer);
+      const layer = new SceneLayer({ url: props.layer.url });
+      const updatingLayer = layerStore.layers.find((layer) => layer.id === props.layer.id);
+      if (!isDefined(updatingLayer)) return;
+      updatingLayer.arcgis_id = layer.id;
+      mapStore.map.add(layer);
+    } else if (isDefined(mapStore.map) && isDefined(props.layer.arcgis_id)) {
+      // remove layer from map
+      const targetLayer = mapStore.map.findLayerById(props.layer.arcgis_id);
+      if (!isDefined(targetLayer)) return;
+      mapStore.map.remove(targetLayer);
+      // set arcgis_id to null from layerStore, because it has been removed from map
+      const updatingLayer = layerStore.layers.find((layer) => layer.id === props.layer.id);
+      if (!isDefined(updatingLayer)) return;
+      updatingLayer.arcgis_id = null;
+    }
   }
 </script>
 <style scoped>
   .layerItem {
+    /* box-shadow */
     display: flex;
     align-items: center;
     justify-content: space-between;
+    padding: 8px;
+    border: 0.6667px solid rgb(212 212 212);
+    background-color: #fff;
+
+    .layerItem__header {
+      display: flex;
+    }
   }
 </style>

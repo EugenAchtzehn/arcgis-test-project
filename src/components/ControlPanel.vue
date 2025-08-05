@@ -95,7 +95,7 @@
     bottom: 4px;
     width: 300px;
     height: calc(100% - 8px);
-    background-color: #f0f0f0;
+    background-color: #fff;
     overflow-y: auto;
 
     .controlPanel__title {
@@ -121,6 +121,8 @@
 
         :deep(.el-radio-button__inner) {
           width: 100%;
+          border-color: rgb(212 212 212);
+          border-radius: 0;
         }
       }
     }
