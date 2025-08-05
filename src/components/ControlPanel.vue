@@ -3,8 +3,14 @@
     <h2 class="controlPanel__title">Control Panel</h2>
     <div class="controlPanel__controls">
       <div class="controlPanel__controls-switcher">
-        <span>3D 模式</span>
-        <el-switch v-model="isSceneMode" @change="eChangeSceneMode" />
+        <el-radio-group
+          class="DimensionControl-RadioGroup"
+          v-model="isSceneMode"
+          @change="eChangeSceneMode"
+        >
+          <el-radio-button class="DimensionControl-RadioButton" label="2D" value="mapView" />
+          <el-radio-button class="DimensionControl-RadioButton" label="3D" value="sceneView" />
+        </el-radio-group>
       </div>
       <div>
         {{
@@ -28,7 +34,7 @@
   import { useMapStore } from "@/stores/mapStore";
 
   const mapStore = useMapStore();
-  const isSceneMode = ref(false);
+  const isSceneMode = ref("mapView");
   const { t } = useI18n();
 
   const props = defineProps<{
@@ -36,9 +42,10 @@
   }>();
 
   function eChangeSceneMode() {
+    console.log(isSceneMode.value);
     if (!isDefined(mapStore.mapView) || !isDefined(mapStore.sceneView)) return;
     // 2D to 3D
-    if (isSceneMode.value) {
+    if (isSceneMode.value === "sceneView") {
       // update current center and zoom from mapView
       const center = [mapStore.mapView.center.longitude, mapStore.mapView.center.latitude] as [
         number,
@@ -56,7 +63,7 @@
       mapStore.sceneView.container = props.mapDiv;
     }
     // 3D to 2D
-    else {
+    if (isSceneMode.value === "mapView") {
       const center = [mapStore.sceneView.center.longitude, mapStore.sceneView.center.latitude] as [
         number,
         number,
@@ -76,8 +83,12 @@
 </script>
 <style lang="css" scoped>
   .controlPanel {
-    width: 25%;
-    height: calc(100vh - var(--navigation-height));
+    position: absolute;
+    top: 4px;
+    right: 4px;
+    bottom: 4px;
+    width: 300px;
+    height: calc(100% - 8px);
     background-color: #f0f0f0;
     overflow-y: auto;
 
@@ -94,11 +105,17 @@
       gap: 0.5rem;
       padding: 0.5rem;
 
-      .controlPanel__controls-switcher {
+      .DimensionControl-RadioGroup {
         display: flex;
-        align-items: center;
-        justify-content: space-between;
-        gap: 0.5rem;
+        width: 100%;
+
+        .DimensionControl-RadioButton {
+          flex-grow: 1;
+        }
+
+        :deep(.el-radio-button__inner) {
+          width: 100%;
+        }
       }
     }
   }

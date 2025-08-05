@@ -22,11 +22,13 @@
   @import url("https://js.arcgis.com/4.33/@arcgis/core/assets/esri/themes/light/main.css");
 
   .container {
+    position: relative;
     display: flex;
+    height: calc(100vh - var(--navigation-height));
 
     .map {
-      width: 75%;
-      height: calc(100vh - var(--navigation-height));
+      width: 100%;
+      height: 100%;
     }
   }
 </style>

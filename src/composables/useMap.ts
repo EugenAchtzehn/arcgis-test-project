@@ -34,7 +34,7 @@ export function setupMap() {
 
   function initializeMap() {
     const webMap = new Map({
-      basemap: "streets-vector",
+      basemap: "osm",
       ground: "world-elevation",
     });
 
@@ -55,6 +55,10 @@ export function setupMap() {
       constraints: {
         rotationEnabled: false,
       },
+      ui: {
+        // 不放 attribution 但要注意使用條款
+        components: ["zoom"],
+      },
     });
 
     const sceneView = new SceneView({
@@ -62,6 +66,9 @@ export function setupMap() {
       map: webMap,
       center: initialCenter,
       zoom: initialZoom,
+      ui: {
+        components: ["zoom", "compass", "navigation-toggle"],
+      },
     });
 
     // const featureLayer = createFeatureLayer();

@@ -1,0 +1,219 @@
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  font-weight: normal;
+}
+
+/* color palette from <https://github.com/vuejs/theme> */
+:root {
+  --navigation-height: 50px;
+
+  /* font-family: Avenir Next; */
+
+  /* calcite-mode-light */
+  --calcite-color-border-white: #fff;
+  --calcite-color-border-ghost: #0000004d;
+  --calcite-color-border-input: #949494;
+  --calcite-color-border-3: #dedede;
+  --calcite-color-border-2: #d4d4d4;
+  --calcite-color-border-1: #c9c9c9;
+  --calcite-color-text-link: #00619b;
+  --calcite-color-text-inverse: #fff;
+  --calcite-color-text-highlight: #004874;
+  --calcite-color-text-3: #6b6b6b;
+  --calcite-color-text-2: #4a4a4a;
+  --calcite-color-text-1: #141414;
+  --calcite-color-inverse-press: #212121;
+  --calcite-color-inverse-hover: #2b2b2b;
+  --calcite-color-inverse: #363636;
+  --calcite-color-status-danger-press: #7c1d13;
+  --calcite-color-status-danger-hover: #a82b1e;
+  --calcite-color-status-danger: #d83020;
+  --calcite-color-status-warning-press: #9a5b10;
+  --calcite-color-status-warning-hover: #d17300;
+  --calcite-color-status-warning: #f89927;
+  --calcite-color-status-success-press: #1a6324;
+  --calcite-color-status-success-hover: #288835;
+  --calcite-color-status-success: #35ac46;
+  --calcite-color-status-info-press: #00304d;
+  --calcite-color-status-info-hover: #004874;
+  --calcite-color-status-info: #00619b;
+  --calcite-color-brand-underline: #00619b66;
+  --calcite-color-brand-press: #004874;
+  --calcite-color-brand-hover: #00619b;
+  --calcite-color-brand: #007ac2;
+  --calcite-color-transparent-tint: #fffc;
+  --calcite-color-transparent-scrim: #ffffffd9;
+  --calcite-color-transparent-inverse-press: #ffffff29;
+  --calcite-color-transparent-inverse-hover: #ffffff1f;
+  --calcite-color-transparent-press: #00000014;
+  --calcite-color-transparent-hover: #0000000a;
+  --calcite-color-transparent: #0000;
+  --calcite-color-foreground-current: #c7eaff;
+  --calcite-color-foreground-3: #ebebeb;
+  --calcite-color-foreground-2: #f2f2f2;
+  --calcite-color-foreground-1: #fff;
+  --calcite-color-background-none: #fff0;
+  --calcite-color-background: #f7f7f7;
+
+  --calcite-container-size-height-xxs-min: 0;
+  --calcite-container-size-width-xxs-min: 0;
+  --calcite-border-width-none: 0;
+  --calcite-border-width-sm: 1px;
+  --calcite-border-width-md: 2px;
+  --calcite-border-width-lg: 4px;
+  --calcite-container-size-height-xxs-max: 154px;
+  --calcite-container-size-height-xs-min: 155px;
+  --calcite-container-size-height-xs-max: 328px;
+  --calcite-container-size-height-sm-min: 329px;
+  --calcite-container-size-height-sm-max: 504px;
+  --calcite-container-size-height-md-min: 505px;
+  --calcite-container-size-height-md-max: 678px;
+  --calcite-container-size-height-lg-min: 679px;
+  --calcite-container-size-height-lg-max: 854px;
+  --calcite-container-size-height-xl-min: 855px;
+  --calcite-container-size-width-xxs-max: 320px;
+  --calcite-container-size-width-xs-min: 321px;
+  --calcite-container-size-width-xs-max: 476px;
+  --calcite-container-size-width-sm-min: 477px;
+  --calcite-container-size-width-sm-max: 768px;
+  --calcite-container-size-width-md-min: 769px;
+  --calcite-container-size-width-md-max: 1152px;
+  --calcite-container-size-width-lg-min: 1153px;
+  --calcite-container-size-width-lg-max: 1440px;
+  --calcite-container-size-width-xl-min: 1441px;
+  --calcite-container-size-margin: 24px;
+  --calcite-container-size-gutter: 16px;
+  --calcite-container-size-content-fluid: 100%;
+  --calcite-container-size-content-fixed: 1440px;
+  --calcite-corner-radius-sharp: 0;
+  --calcite-corner-radius-none: 0;
+  --calcite-corner-radius-xs: 2px;
+  --calcite-corner-radius-sm: 4px;
+  --calcite-corner-radius-round: 4px;
+  --calcite-corner-radius-pill: 100%;
+  --calcite-font-family: "Avenir Next", Avenir, "Helvetica Neue", sans-serif;
+  --calcite-font-family-code: Monaco, Consolas, "Andale Mono", "Lucida Console", monospace;
+  --calcite-font-weight-regular: 400;
+  --calcite-font-weight-semibold: 600;
+  --calcite-font-size-xs: 10px;
+  --calcite-font-size-sm: 12px;
+  --calcite-font-size: 14px;
+  --calcite-font-size-md: 16px;
+  --calcite-font-size-lg: 18px;
+  --calcite-font-size-xl: 20px;
+  --calcite-font-size-xxl: 24px;
+  --calcite-font-style-emphasis: italic;
+  --calcite-font-line-height-fixed-sm: 12px;
+  --calcite-font-line-height-fixed-base: 16px;
+  --calcite-font-line-height-fixed-lg: 20px;
+  --calcite-font-line-height-fixed-xl: 24px;
+  --calcite-font-line-height-relative: auto;
+  --calcite-font-line-height-relative-tight: 1.25;
+  --calcite-font-line-height-relative-snug: 1.375;
+  --calcite-font-line-height-relative-normal: 1.5;
+  --calcite-font-line-height-relative-relaxed: 1.625;
+  --calcite-font-line-height-relative-loose: 2;
+  --calcite-font-letter-spacing-tight: -0.4px;
+  --calcite-font-letter-spacing-normal: 0;
+  --calcite-font-letter-spacing-wide: 0.4px;
+  --calcite-font-paragraph-spacing-normal: 4px;
+  --calcite-font-text-decoration-none: none;
+  --calcite-font-text-decoration-underline: underline;
+  --calcite-font-text-case-none: none;
+  --calcite-font-text-case-uppercase: uppercase;
+  --calcite-font-text-case-lowercase: lowercase;
+  --calcite-font-text-case-capitalize: capitalize;
+  --calcite-opacity-light: 0.4;
+  --calcite-opacity-half: 0.5;
+  --calcite-opacity-dark: 0.85;
+  --calcite-opacity-full: 1;
+  --calcite-opacity-disabled: 0.5;
+  --calcite-shadow-none: 0 0 0 0 #0000;
+  --calcite-size-fixed-xxxs: 2px;
+  --calcite-size-fixed-xxs: 4px;
+  --calcite-size-fixed-xs: 6px;
+  --calcite-size-fixed-sm: 8px;
+  --calcite-size-fixed-sm-plus: 10px;
+  --calcite-size-fixed-md: 12px;
+  --calcite-size-fixed-md-plus: 14px;
+  --calcite-size-fixed-lg: 16px;
+  --calcite-size-fixed-xl: 20px;
+  --calcite-size-fixed-xxl: 24px;
+  --calcite-size-fixed-xxxl: 32px;
+  --calcite-size-px: 1px;
+  --calcite-size-xxxs: 0.75rem;
+  --calcite-size-xxs: 0.875rem;
+  --calcite-size-xs: 1rem;
+  --calcite-size-sm: 1.5rem;
+  --calcite-size-md: 2rem;
+  --calcite-size-lg: 2.75rem;
+  --calcite-size-xl: 3rem;
+  --calcite-size-xxl: 4rem;
+  --calcite-size-xxxl: 6rem;
+  --calcite-spacing-fixed-xxs: 4px;
+  --calcite-spacing-fixed-xs: 6px;
+  --calcite-spacing-fixed-sm: 8px;
+  --calcite-spacing-fixed-md: 12px;
+  --calcite-spacing-fixed-lg: 14px;
+  --calcite-spacing-fixed-xl: 16px;
+  --calcite-spacing-fixed-xxl: 20px;
+  --calcite-spacing-fixed-xxxl: 32px;
+  --calcite-spacing-none: 0;
+  --calcite-spacing-px: 1px;
+  --calcite-spacing-base: 2px;
+  --calcite-spacing-xxs: 0.25rem;
+  --calcite-spacing-xs: 0.375rem;
+  --calcite-spacing-sm: 0.5rem;
+  --calcite-spacing-sm-plus: 0.625rem;
+  --calcite-spacing-md: 0.75rem;
+  --calcite-spacing-md-plus: 0.875rem;
+  --calcite-spacing-lg: 1rem;
+  --calcite-spacing-xl: 1.25rem;
+  --calcite-spacing-xxl: 1.5rem;
+  --calcite-spacing-xxxl: 2rem;
+  --calcite-z-index-deep: -999999;
+  --calcite-z-index: 1;
+  --calcite-z-index-sticky: 300;
+  --calcite-z-index-header: 400;
+  --calcite-z-index-toast: 500;
+  --calcite-z-index-dropdown: 600;
+  --calcite-z-index-overlay: 700;
+  --calcite-z-index-modal: 800;
+  --calcite-z-index-popup: 900;
+  --calcite-z-index-tooltip: 901;
+  --calcite-corner-radius: var(--calcite-corner-radius-none);
+  --calcite-shadow-sm: 0 2px 8px 0 #0000000a, 0 4px 16px 0 #00000014;
+  --calcite-shadow-md: 0 4px 20px 0 #00000014, 0 12px 30px #0000001a;
+}
+
+/* semantic color variables for this project */
+/* :root {
+  --color-background: var(--vt-c-white);
+  --color-background-soft: var(--vt-c-white-soft);
+  --color-background-mute: var(--vt-c-white-mute);
+
+  --color-border: var(--vt-c-divider-light-2);
+  --color-border-hover: var(--vt-c-divider-light-1);
+
+  --color-heading: var(--vt-c-text-light-1);
+  --color-text: var(--vt-c-text-light-1);
+
+  --section-gap: 160px;
+} */
+
+/* @media (prefers-color-scheme: dark) {
+  :root {
+    --color-background: var(--vt-c-black);
+    --color-background-soft: var(--vt-c-black-soft);
+    --color-background-mute: var(--vt-c-black-mute);
+
+    --color-border: var(--vt-c-divider-dark-2);
+    --color-border-hover: var(--vt-c-divider-dark-1);
+
+    --color-heading: var(--vt-c-text-dark-1);
+    --color-text: var(--vt-c-text-dark-2);
+  }
+} */
