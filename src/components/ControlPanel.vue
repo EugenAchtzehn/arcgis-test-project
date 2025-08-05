@@ -12,6 +12,10 @@
           <el-radio-button class="DimensionControl-RadioButton" label="3D" value="sceneView" />
         </el-radio-group>
       </div>
+      <section v-for="layer in layerStore.layers" :key="layer.id">
+        <!-- <LayerItem :model-value="layer" /> -->
+        <layer-item :layer="layer" />
+      </section>
       <div>
         {{
           mapStore.currentLng !== 0
@@ -32,8 +36,10 @@
   import { useI18n } from "vue-i18n";
   import { isDefined } from "@/lib/utils/isDefined";
   import { useMapStore } from "@/stores/mapStore";
+  import { useLayerStore } from "@/stores/layerStore";
 
   const mapStore = useMapStore();
+  const layerStore = useLayerStore();
   const isSceneMode = ref("mapView");
   const { t } = useI18n();
 

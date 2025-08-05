@@ -1,18 +1,20 @@
 <template>
   <main class="container">
     <div class="map" ref="mapDiv"></div>
-    <ControlPanel :map-div="mapDiv"></ControlPanel>
+    <control-panel :map-div="mapDiv"></control-panel>
   </main>
 </template>
 
 <script setup lang="ts">
   import { setupMap } from "@/composables/useMap";
-  import ControlPanel from "@/components/ControlPanel.vue";
+  import { useLayerStore } from "@/stores/layerStore";
   import axios from "axios";
+
+  const layerStore = useLayerStore();
 
   onBeforeMount(async () => {
     const { data: mapConfig } = await axios.get("/data/MapConfig.json");
-    console.log(mapConfig);
+    layerStore.setLayers(mapConfig.layers);
   });
 
   const { mapDiv } = setupMap();
