@@ -26,6 +26,7 @@ export class Layer implements Layer {
     // set by default value
     this.opacity = 1;
     this.visible = true;
+    // if null, then it is not instanced.
     this.arcgis_id = null;
   }
 }

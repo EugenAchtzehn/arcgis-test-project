@@ -13,8 +13,7 @@
   import { useMapStore } from "@/stores/mapStore";
   import { useLayerStore } from "@/stores/layerStore";
   import { isDefined } from "@/lib/utils/isDefined";
-  import { addLayerToMap } from "@/lib/maps/addLayerToMap";
-  import { removeLayerFromMap } from "@/lib/maps/removeLayerFromMap";
+  import { addLayerToMap, removeLayerFromMap } from "@/lib/maps/arcgisMapController";
   import { buildUrlForLocalData } from "@/lib/utils/buildUrl";
 
   import SceneLayer from "@arcgis/core/layers/SceneLayer";
@@ -32,68 +31,17 @@
 
   function eChangeVisible() {
     if (props.layer.isLocal) {
-      const builtUrl = buildUrlForLocalData(props.layer.url);
-      console.log(builtUrl);
+      // const builtUrl = buildUrlForLocalData(props.layer.url);
     }
-    // console.log(props.layer.visible);
   }
 
   async function eChangeActive() {
-    if (props.layer.type === "SceneLayer") {
-      if (layerActive.value && isDefined(mapStore.map)) {
-        // addLayerToMap(props.layer);
-        const layer = new SceneLayer({
-          url: props.layer.url,
-          popupTemplate: {
-            title: "Popup Title",
-            content: "Popup Content",
-          },
-        });
-        const updatingLayer = layerStore.layers.find((layer) => layer.id === props.layer.id);
-        if (!isDefined(updatingLayer)) return;
-        updatingLayer.arcgis_id = layer.id;
-        mapStore.map.add(layer);
-      } else if (isDefined(mapStore.map) && isDefined(props.layer.arcgis_id)) {
-        // remove layer from map
-        const targetLayer = mapStore.map.findLayerById(props.layer.arcgis_id);
-        if (!isDefined(targetLayer)) return;
-        mapStore.map.remove(targetLayer);
-        // set arcgis_id to null from layerStore, because it has been removed from map
-        const updatingLayer = layerStore.layers.find((layer) => layer.id === props.layer.id);
-        if (!isDefined(updatingLayer)) return;
-        updatingLayer.arcgis_id = null;
-      }
-    } else if (props.layer.type === "FeatureLayer") {
-      // TODO: repair here
-      const { data } = await axios.get(props.layer.url);
-      const source = data.features.map((f: any, idx: number) => {
-        return {
-          geometry: {
-            type: f.geometry.type.toLowerCase(),
-            x: f.geometry.coordinates[0],
-            y: f.geometry.coordinates[1],
-          },
-          attributes: {
-            ...f.properties,
-          },
-        };
-      });
-      console.log(source);
-      if (layerActive.value && isDefined(mapStore.map)) {
-        const layer = new FeatureLayer({
-          source: source,
-          objectIdField: "NO",
-          popupTemplate: {
-            title: "Popup Title",
-            content: "Popup Content",
-          },
-        });
-        const updatingLayer = layerStore.layers.find((layer) => layer.id === props.layer.id);
-        if (!isDefined(updatingLayer)) return;
-        updatingLayer.arcgis_id = layer.id;
-        mapStore.map.add(layer);
-      } else if (isDefined(mapStore.map) && isDefined(props.layer.arcgis_id)) {
-      }
+    if (!isDefined(mapStore.map)) return;
+
+    if (layerActive.value) {
+      await addLayerToMap(props.layer, mapStore.map);
+    } else {
+      await removeLayerFromMap(props.layer, mapStore.map);
     }
   }
 </script>

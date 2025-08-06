@@ -1,3 +1,4 @@
+import * as intl from "@arcgis/core/intl";
 import Map from "@arcgis/core/Map";
 import MapView from "@arcgis/core/views/MapView";
 import SceneView from "@arcgis/core/views/SceneView";
@@ -8,29 +9,7 @@ export function setupMap() {
   const mapStore = useMapStore();
   const mapDiv = ref<HTMLDivElement | null>(null);
 
-  // const testPoints = [
-  //   { id: 1, name: "台北101", lon: 121.5654, lat: 25.033 },
-  //   { id: 2, name: "台北車站", lon: 121.5168, lat: 25.0478 },
-  // ];
-
-  // const createFeatureLayer = () => {
-  //   const pointGraphics = testPoints.map((point) => {
-  //     const pointGeometry = new Point({
-  //       longitude: point.lon,
-  //       latitude: point.lat,
-  //     });
-  //     return new Graphic({
-  //       geometry: pointGeometry,
-  //       attributes: { id: point.id, name: point.name },
-  //     });
-  //   });
-
-  //   return new FeatureLayer({
-  //     source: pointGraphics,
-  //     objectIdField: "id",
-  //     geometryType: "point",
-  //   });
-  // };
+  intl.setLocale("zh-TW");
 
   function initializeMap() {
     const webMap = new Map({
