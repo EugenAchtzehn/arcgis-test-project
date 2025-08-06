@@ -2,6 +2,7 @@
   <main class="container">
     <div class="map" ref="mapDiv"></div>
     <control-panel :map-div="mapDiv"></control-panel>
+    <toggle-panel-button></toggle-panel-button>
   </main>
 </template>
 

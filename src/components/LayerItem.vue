@@ -37,7 +37,13 @@
   function eChangeActive() {
     if (layerActive.value && isDefined(mapStore.map)) {
       // addLayerToMap(props.layer);
-      const layer = new SceneLayer({ url: props.layer.url });
+      const layer = new SceneLayer({
+        url: props.layer.url,
+        popupTemplate: {
+          title: "Popup Title",
+          content: "Popup Content",
+        },
+      });
       const updatingLayer = layerStore.layers.find((layer) => layer.id === props.layer.id);
       if (!isDefined(updatingLayer)) return;
       updatingLayer.arcgis_id = layer.id;
