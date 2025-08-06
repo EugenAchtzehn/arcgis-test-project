@@ -9,14 +9,14 @@
       "name": "點圖層",
       "type": "FeatureLayer",
       "isLocal": true,
-      "url": "/data/points.geojson"
+      "url": "/data/geojson/FireHydrant.geojson"
     },
     {
       "id": "2",
       "name": "多邊形圖層",
       "type": "FeatureLayer",
       "isLocal": true,
-      "url": "/data/polygons.geojson"
+      "url": "/data/geojson/TaiwanCounty.geojson"
     },
     {
       "id": "3",
