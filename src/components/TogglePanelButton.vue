@@ -4,7 +4,7 @@
 <style lang="css" scoped>
   .button__wrapper {
     position: absolute;
-    top: 4px;
+    top: 16px;
     right: 304px;
     cursor: pointer;
     width: 24px;

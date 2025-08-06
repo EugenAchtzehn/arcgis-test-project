@@ -20,6 +20,7 @@
   import SceneLayer from "@arcgis/core/layers/SceneLayer";
   import FeatureLayer from "@arcgis/core/layers/FeatureLayer";
   import GeoJSONLayer from "@arcgis/core/layers/GeoJSONLayer";
+  import Graphic from "@arcgis/core/Graphic.js";
   import axios from "axios";
 
   const layerActive = ref<boolean>(false);
@@ -69,7 +70,8 @@
         return {
           geometry: {
             type: f.geometry.type.toLowerCase(),
-            coordinates: f.geometry.coordinates,
+            x: f.geometry.coordinates[0],
+            y: f.geometry.coordinates[1],
           },
           attributes: {
             ...f.properties,
@@ -81,6 +83,10 @@
         const layer = new FeatureLayer({
           source: source,
           objectIdField: "NO",
+          popupTemplate: {
+            title: "Popup Title",
+            content: "Popup Content",
+          },
         });
         const updatingLayer = layerStore.layers.find((layer) => layer.id === props.layer.id);
         if (!isDefined(updatingLayer)) return;
