@@ -2,6 +2,7 @@ import { Layer } from "@/types/Layer";
 import WMTSLayer from "@arcgis/core/layers/WMTSLayer";
 import FeatureLayer from "@arcgis/core/layers/FeatureLayer";
 import SceneLayer from "@arcgis/core/layers/SceneLayer";
+import GeoJSONLayer from "@arcgis/core/layers/GeoJSONLayer";
 import GraphicsLayer from "@arcgis/core/layers/GraphicsLayer";
 import VectorTileLayer from "@arcgis/core/layers/VectorTileLayer";
 import { useLayerStore } from "@/stores/layerStore";
@@ -101,6 +102,15 @@ export async function addLayerToMap(layer: Layer, map: __esri.Map) {
         title: "Popup-Title",
         content: "NO: {NO}",
       },
+      renderer: {
+        type: "simple",
+        symbol: {
+          type: "simple-marker",
+          style: "square",
+          size: 5,
+          color: "maroon",
+        },
+      },
     });
     const arcgis_id = featureLayer.id;
     updateLayerArcgisId(layer, arcgis_id);
@@ -109,6 +119,11 @@ export async function addLayerToMap(layer: Layer, map: __esri.Map) {
     // TODO: add graphics layer to map
   } else if (layer.type === "VectorTileLayer") {
     // TODO: add other layer to map
+  } else if (layer.type === "GeoJSONLayer") {
+    const geojsonLayer = new GeoJSONLayer({ url: layer.url });
+    const arcgis_id = geojsonLayer.id;
+    updateLayerArcgisId(layer, arcgis_id);
+    map.add(geojsonLayer);
   }
 }
 
@@ -125,6 +140,11 @@ export async function removeLayerFromMap(layer: Layer, map: __esri.Map) {
     const featureLayer = map.findLayerById(layer.arcgis_id);
     if (!isDefined(featureLayer)) return;
     map.remove(featureLayer);
+    resetLayerArcgisId(layer);
+  } else if (layer.type === "GeoJSONLayer") {
+    const geojsonLayer = map.findLayerById(layer.arcgis_id);
+    if (!isDefined(geojsonLayer)) return;
+    map.remove(geojsonLayer);
     resetLayerArcgisId(layer);
   }
 }

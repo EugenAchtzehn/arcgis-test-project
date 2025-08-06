@@ -14,7 +14,7 @@
     {
       "id": "2",
       "name": "多邊形圖層",
-      "type": "FeatureLayer",
+      "type": "GeoJSONLayer",
       "isLocal": true,
       "url": "/data/geojson/TaiwanCounty.geojson"
     },
