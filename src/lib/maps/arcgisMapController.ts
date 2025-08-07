@@ -9,61 +9,6 @@ import { useLayerStore } from "@/stores/layerStore";
 import { isDefined } from "@/lib/utils/isDefined";
 import axios from "axios";
 
-// if (props.layer.type === "SceneLayer") {
-//   if (layerActive.value && isDefined(mapStore.map)) {
-//     const layer = new SceneLayer({
-//       url: props.layer.url,
-//       popupTemplate: {
-//         title: "Popup Title",
-//         content: "Popup Content",
-//       },
-//     });
-//     const updatingLayer = layerStore.layers.find((layer) => layer.id === props.layer.id);
-//     if (!isDefined(updatingLayer)) return;
-//     updatingLayer.arcgis_id = layer.id;
-//     mapStore.map.add(layer);
-//   } else if (isDefined(mapStore.map) && isDefined(props.layer.arcgis_id)) {
-//     // remove layer from map
-//     const targetLayer = mapStore.map.findLayerById(props.layer.arcgis_id);
-//     if (!isDefined(targetLayer)) return;
-//     mapStore.map.remove(targetLayer);
-//     // set arcgis_id to null from layerStore, because it has been removed from map
-//     const updatingLayer = layerStore.layers.find((layer) => layer.id === props.layer.id);
-//     if (!isDefined(updatingLayer)) return;
-//     updatingLayer.arcgis_id = null;
-//   }
-// } else if (props.layer.type === "FeatureLayer") {
-//   // TODO: repair here
-//   const { data } = await axios.get(props.layer.url);
-//   const source = data.features.map((f: any, idx: number) => {
-//     return {
-//       geometry: {
-//         type: f.geometry.type.toLowerCase(),
-//         x: f.geometry.coordinates[0],
-//         y: f.geometry.coordinates[1],
-//       },
-//       attributes: {
-//         ...f.properties,
-//       },
-//     };
-//   });
-//   if (layerActive.value && isDefined(mapStore.map)) {
-//     const layer = new FeatureLayer({
-//       source: source,
-//       objectIdField: "NO",
-//       popupTemplate: {
-//         title: "Popup Title",
-//         content: "Popup Content",
-//       },
-//     });
-//     const updatingLayer = layerStore.layers.find((layer) => layer.id === props.layer.id);
-//     if (!isDefined(updatingLayer)) return;
-//     updatingLayer.arcgis_id = layer.id;
-//     mapStore.map.add(layer);
-//   } else if (isDefined(mapStore.map) && isDefined(props.layer.arcgis_id)) {
-//   }
-// }
-
 /**
  * @description Add layer to map by layer type
  * @param layer - Layer object
@@ -95,6 +40,17 @@ export async function addLayerToMap(layer: Layer, map: __esri.Map) {
         },
       };
     });
+
+    // const renderer = {
+    //   type: "simple",
+    //   symbol: {
+    //     type: "simple-marker",
+    //     style: "square",
+    //     size: 5,
+    //     color: "maroon",
+    //   },
+    // };
+
     const featureLayer = new FeatureLayer({
       source: source,
       objectIdField: "NO",
@@ -102,23 +58,11 @@ export async function addLayerToMap(layer: Layer, map: __esri.Map) {
         title: "Popup-Title",
         content: "NO: {NO}",
       },
-      renderer: {
-        type: "simple",
-        symbol: {
-          type: "simple-marker",
-          style: "square",
-          size: 5,
-          color: "maroon",
-        },
-      },
+      // renderer: renderer,
     });
     const arcgis_id = featureLayer.id;
     updateLayerArcgisId(layer, arcgis_id);
     map.add(featureLayer);
-  } else if (layer.type === "GraphicsLayer") {
-    // TODO: add graphics layer to map
-  } else if (layer.type === "VectorTileLayer") {
-    // TODO: add other layer to map
   } else if (layer.type === "GeoJSONLayer") {
     const geojsonLayer = new GeoJSONLayer({ url: layer.url });
     const arcgis_id = geojsonLayer.id;

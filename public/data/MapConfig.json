@@ -6,20 +6,27 @@
   "layers": [
     {
       "id": "1",
-      "name": "點圖層",
+      "name": "點圖層(FeatureLayer)",
       "type": "FeatureLayer",
       "isLocal": true,
       "url": "/data/geojson/FireHydrant.geojson"
     },
     {
       "id": "2",
-      "name": "多邊形圖層",
+      "name": "基隆中正區(GeoJSONLayer)",
       "type": "GeoJSONLayer",
       "isLocal": true,
-      "url": "/data/geojson/TaiwanCounty.geojson"
+      "url": "/data/geojson/KeelungZZ.geojson"
     },
     {
       "id": "3",
+      "name": "點圖層(GeoJSONLayer)",
+      "type": "GeoJSONLayer",
+      "isLocal": true,
+      "url": "/data/geojson/FireHydrant.geojson"
+    },
+    {
+      "id": "4",
       "name": "LOD1_2023",
       "type": "SceneLayer",
       "isLocal": false,
