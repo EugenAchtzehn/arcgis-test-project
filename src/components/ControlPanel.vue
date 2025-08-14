@@ -16,18 +16,6 @@
         <!-- <LayerItem :model-value="layer" /> -->
         <layer-item :layer="layer" />
       </section>
-      <div>
-        {{
-          mapStore.currentLng !== 0
-            ? mapStore.currentLng.toFixed(6)
-            : t("ControlPanel.NoValidLongitude")
-        }}
-        {{
-          mapStore.currentLat !== 0
-            ? mapStore.currentLat.toFixed(6)
-            : t("ControlPanel.NoValidLatitude")
-        }}
-      </div>
     </div>
   </div>
 </template>
@@ -92,9 +80,9 @@
     position: absolute;
     top: 4px;
     right: 4px;
-    bottom: 4px;
+    bottom: 26px;
     width: 300px;
-    height: calc(100% - 8px);
+    height: calc(100% - 30px);
     background-color: #fff;
     overflow-y: auto;
 

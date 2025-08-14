@@ -3,6 +3,7 @@
     <div class="map" ref="mapDiv"></div>
     <control-panel :map-div="mapDiv"></control-panel>
     <toggle-panel-button></toggle-panel-button>
+    <map-footer></map-footer>
   </main>
 </template>
 
@@ -10,6 +11,7 @@
   import { setupMap } from "@/composables/useMap";
   import { useLayerStore } from "@/stores/layerStore";
   import axios from "axios";
+  import MapFooter from "@/components/MapFooter.vue";
 
   const layerStore = useLayerStore();
 

@@ -39,7 +39,10 @@ export default defineConfig(({ mode }) => {
     },
     server: {
       // open: true,
-      port: 55688,
+      port: 8787,
+    },
+    preview: {
+      port: 6489,
     },
     resolve: {
       alias: {
