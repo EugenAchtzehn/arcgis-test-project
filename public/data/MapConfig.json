@@ -31,6 +31,20 @@
       "type": "SceneLayer",
       "isLocal": false,
       "url": "https://www.historygis.udd.gov.taipei/arcgis/rest/services/Hosted/LOD1_2023/SceneServer/layers/0"
+    },
+    {
+      "id": "5",
+      "name": "動物園(FeatureLayer)",
+      "type": "FeatureLayer",
+      "isLocal": true,
+      "url": "/data/geojson/TaipeiZoo.geojson"
+    },
+    {
+      "id": "6",
+      "name": "基隆中正區(FeatureLayer)",
+      "type": "FeatureLayer",
+      "isLocal": true,
+      "url": "/data/geojson/KeelungZZ.geojson"
     }
   ]
 }

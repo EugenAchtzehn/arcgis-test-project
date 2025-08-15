@@ -18,7 +18,7 @@ export function setupMap() {
     });
 
     const initialCenter = [121.55, 25.05] as [number, number];
-    const initialZoom = 14;
+    const initialZoom = 11;
 
     mapStore.setCurrentCenter(initialCenter);
     mapStore.setCurrentZoom(initialZoom);

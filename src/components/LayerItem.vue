@@ -5,7 +5,7 @@
       @change="eChangeActive"
       :label="props.layer.name"
     ></el-checkbox>
-    <el-switch v-model="props.layer.visible" @change="eChangeVisible"></el-switch>
+    <!-- <el-switch v-model="props.layer.visible" @change="eChangeVisible"></el-switch> -->
   </div>
 </template>
 <script setup lang="ts">
