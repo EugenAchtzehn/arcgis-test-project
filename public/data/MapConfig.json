@@ -13,38 +13,66 @@
     },
     {
       "id": "2",
-      "name": "基隆中正區(GeoJSONLayer)",
-      "type": "GeoJSONLayer",
-      "isLocal": true,
-      "url": "/data/geojson/KeelungZZ.geojson"
-    },
-    {
-      "id": "3",
-      "name": "點圖層(GeoJSONLayer)",
-      "type": "GeoJSONLayer",
-      "isLocal": true,
-      "url": "/data/geojson/FireHydrant.geojson"
-    },
-    {
-      "id": "4",
-      "name": "LOD1_2023",
-      "type": "SceneLayer",
-      "isLocal": false,
-      "url": "https://www.historygis.udd.gov.taipei/arcgis/rest/services/Hosted/LOD1_2023/SceneServer/layers/0"
-    },
-    {
-      "id": "5",
       "name": "動物園(FeatureLayer)",
       "type": "FeatureLayer",
       "isLocal": true,
       "url": "/data/geojson/TaipeiZoo.geojson"
     },
     {
-      "id": "6",
+      "id": "3",
       "name": "基隆中正區(FeatureLayer)",
       "type": "FeatureLayer",
       "isLocal": true,
       "url": "/data/geojson/KeelungZZ.geojson"
+    },
+    {
+      "id": "4",
+      "name": "MRTLine(FeatureLayer)",
+      "type": "FeatureLayer",
+      "isLocal": true,
+      "url": "/data/geojson/MrtLine.geojson"
+    },
+    {
+      "id": "5",
+      "name": "MRTMultiLine(FeatureLayer)",
+      "type": "FeatureLayer",
+      "isLocal": true,
+      "url": "/data/geojson/MrtMultiLine.geojson"
+    },
+    {
+      "id": "6",
+      "name": "LOD1_2023",
+      "type": "SceneLayer",
+      "isLocal": false,
+      "url": "https://www.historygis.udd.gov.taipei/arcgis/rest/services/Hosted/LOD1_2023/SceneServer/layers/0"
+    },
+    {
+      "id": "7",
+      "name": "點圖層(GeoJSONLayer)",
+      "type": "GeoJSONLayer",
+      "isLocal": true,
+      "url": "/data/geojson/FireHydrant.geojson"
+    },
+    {
+      "id": "8",
+      "name": "基隆中正區(GeoJSONLayer)",
+      "type": "GeoJSONLayer",
+      "isLocal": true,
+      "url": "/data/geojson/KeelungZZ.geojson"
+    },
+    {
+      "id": "9",
+      "name": "MRTLine(GeoJSONLayer)",
+      "type": "GeoJSONLayer",
+      "isLocal": true,
+      "url": "/data/geojson/MrtLine.geojson"
+    },
+    {
+      "id": "10",
+      "name": "MRTMultiLine(GeoJSONLayer)",
+      "type": "GeoJSONLayer",
+      "isLocal": true,
+      "url": "/data/geojson/MrtMultiLine.geojson"
     }
   ]
 }
