@@ -31,6 +31,11 @@ export const useMapStore = defineStore("mapStore", () => {
     });
   }
 
+  const currentMode = ref<"TwoD" | "ThreeD">("TwoD");
+  function setCurrentMode(mode: "TwoD" | "ThreeD") {
+    currentMode.value = mode;
+  }
+
   const currentCenter = ref<[number, number] | null>(null);
   function setCurrentCenter(center: [number, number]) {
     currentCenter.value = center;
@@ -55,6 +60,8 @@ export const useMapStore = defineStore("mapStore", () => {
     setMapView,
     sceneView,
     setSceneView,
+    currentMode,
+    setCurrentMode,
     currentCenter,
     setCurrentCenter,
     currentZoom,
