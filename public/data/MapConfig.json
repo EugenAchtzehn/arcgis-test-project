@@ -9,35 +9,35 @@
       "name": "點圖層(FeatureLayer)",
       "type": "FeatureLayer",
       "isLocal": true,
-      "url": "/data/geojson/FireHydrant.geojson"
+      "url": "data/geojson/FireHydrant.json"
     },
     {
       "id": "2",
       "name": "動物園(FeatureLayer)",
       "type": "FeatureLayer",
       "isLocal": true,
-      "url": "/data/geojson/TaipeiZoo.geojson"
+      "url": "data/geojson/TaipeiZoo.json"
     },
     {
       "id": "3",
       "name": "基隆中正區(FeatureLayer)",
       "type": "FeatureLayer",
       "isLocal": true,
-      "url": "/data/geojson/KeelungZZ.geojson"
+      "url": "data/geojson/KeelungZZ.json"
     },
     {
       "id": "4",
       "name": "MRTLine(FeatureLayer)",
       "type": "FeatureLayer",
       "isLocal": true,
-      "url": "/data/geojson/MrtLine.geojson"
+      "url": "data/geojson/MrtLine.json"
     },
     {
       "id": "5",
       "name": "MRTMultiLine(FeatureLayer)",
       "type": "FeatureLayer",
       "isLocal": true,
-      "url": "/data/geojson/MrtMultiLine.geojson"
+      "url": "data/geojson/MrtMultiLine.json"
     },
     {
       "id": "6",
@@ -51,28 +51,28 @@
       "name": "點圖層(GeoJSONLayer)",
       "type": "GeoJSONLayer",
       "isLocal": true,
-      "url": "/data/geojson/FireHydrant.geojson"
+      "url": "data/geojson/FireHydrant.json"
     },
     {
       "id": "8",
       "name": "基隆中正區(GeoJSONLayer)",
       "type": "GeoJSONLayer",
       "isLocal": true,
-      "url": "/data/geojson/KeelungZZ.geojson"
+      "url": "data/geojson/KeelungZZ.json"
     },
     {
       "id": "9",
       "name": "MRTLine(GeoJSONLayer)",
       "type": "GeoJSONLayer",
       "isLocal": true,
-      "url": "/data/geojson/MrtLine.geojson"
+      "url": "data/geojson/MrtLine.json"
     },
     {
       "id": "10",
       "name": "MRTMultiLine(GeoJSONLayer)",
       "type": "GeoJSONLayer",
       "isLocal": true,
-      "url": "/data/geojson/MrtMultiLine.geojson"
+      "url": "data/geojson/MrtMultiLine.json"
     }
   ]
 }
