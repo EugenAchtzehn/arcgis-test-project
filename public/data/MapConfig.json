@@ -48,27 +48,41 @@
     },
     {
       "id": "7",
+      "name": "測繪中心建物(臺北)",
+      "type": "SceneLayer",
+      "isLocal": false,
+      "url": "https://i3s.nlsc.gov.tw/building/i3s/SceneServer/layers/0"
+    },
+    {
+      "id": "8",
+      "name": "測繪中心道路-貼合版(臺北)",
+      "type": "SceneLayer",
+      "isLocal": false,
+      "url": "https://i3s.nlsc.gov.tw/road2nd/i3s/SceneServer/layers/0"
+    },
+    {
+      "id": "9",
       "name": "點圖層(GeoJSONLayer)",
       "type": "GeoJSONLayer",
       "isLocal": true,
       "url": "data/geojson/FireHydrant.json"
     },
     {
-      "id": "8",
+      "id": "10",
       "name": "基隆中正區(GeoJSONLayer)",
       "type": "GeoJSONLayer",
       "isLocal": true,
       "url": "data/geojson/KeelungZZ.json"
     },
     {
-      "id": "9",
+      "id": "11",
       "name": "MRTLine(GeoJSONLayer)",
       "type": "GeoJSONLayer",
       "isLocal": true,
       "url": "data/geojson/MrtLine.json"
     },
     {
-      "id": "10",
+      "id": "12",
       "name": "MRTMultiLine(GeoJSONLayer)",
       "type": "GeoJSONLayer",
       "isLocal": true,
