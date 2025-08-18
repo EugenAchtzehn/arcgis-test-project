@@ -11,6 +11,8 @@ export interface Layer {
   url: string;
   opacity: number;
   visible: boolean;
+  onlyThreeD: boolean;
+  params: Record<string, any>;
 }
 
 export class Layer implements Layer {
@@ -26,8 +28,12 @@ export class Layer implements Layer {
     // set by default value
     this.opacity = 1;
     this.visible = true;
+    // 目前只有 SceneLayer 只能給 SceneView 使用
+    this.onlyThreeD = layer.type === "SceneLayer";
     // if null, then it is not instanced.
     this.arcgis_id = null;
+    // set by default value
+    this.params = layer.params || {};
   }
 }
 

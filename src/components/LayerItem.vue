@@ -1,5 +1,5 @@
 <template>
-  <div class="layerItem">
+  <div class="layerItem" v-if="validForCurrentMode(props.layer)">
     <el-checkbox
       v-model="layerActive"
       @change="eChangeActive"
@@ -32,6 +32,15 @@
   function eChangeVisible() {
     if (props.layer.isLocal) {
       // const builtUrl = buildUrlForLocalData(props.layer.url);
+    }
+  }
+
+  // 3D 模式下，顯示所有圖層
+  function validForCurrentMode(layer: Layer) {
+    if (mapStore.currentMode === "TwoD") {
+      return !layer.onlyThreeD;
+    } else {
+      return true;
     }
   }
 

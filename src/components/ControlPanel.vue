@@ -12,19 +12,20 @@
           <el-radio-button class="DimensionControl-RadioButton" label="3D" value="sceneView" />
         </el-radio-group>
       </div>
-      <section v-for="layer in layerStore.layers" :key="layer.id">
-        <!-- <LayerItem :model-value="layer" /> -->
-        <layer-item :layer="layer" />
-      </section>
+      <layer-item
+        class="controlPanel__controls-layer"
+        v-for="layer in layerStore.layers"
+        :key="layer.id"
+        :layer="layer"
+      ></layer-item>
     </div>
   </div>
 </template>
 <script setup lang="ts">
-  import { ref } from "vue";
-  import { useI18n } from "vue-i18n";
-  import { isDefined } from "@/lib/utils/isDefined";
   import { useMapStore } from "@/stores/mapStore";
   import { useLayerStore } from "@/stores/layerStore";
+
+  import { isDefined } from "@/lib/utils/isDefined";
 
   const mapStore = useMapStore();
   const layerStore = useLayerStore();
@@ -48,6 +49,7 @@
       const zoom = mapStore.mapView.zoom;
       mapStore.setCurrentCenter(center);
       mapStore.setCurrentZoom(zoom);
+      mapStore.setCurrentMode("ThreeD");
 
       if (!isDefined(mapStore.currentCenter) || !isDefined(mapStore.currentZoom)) return;
 
@@ -65,6 +67,7 @@
       const zoom = mapStore.sceneView.zoom;
       mapStore.setCurrentCenter(center);
       mapStore.setCurrentZoom(zoom);
+      mapStore.setCurrentMode("TwoD");
 
       if (!isDefined(mapStore.currentCenter) || !isDefined(mapStore.currentZoom)) return;
 
@@ -94,23 +97,32 @@
     }
 
     .controlPanel__controls {
-      display: flex;
-      flex-direction: column;
-      gap: 0.5rem;
       padding: 0.5rem;
 
-      .DimensionControl-RadioGroup {
-        display: flex;
-        width: 100%;
+      .controlPanel__controls-switcher {
+        margin-bottom: 0.5rem;
 
-        .DimensionControl-RadioButton {
-          flex-grow: 1;
-        }
-
-        :deep(.el-radio-button__inner) {
+        .DimensionControl-RadioGroup {
+          display: flex;
           width: 100%;
-          border-color: rgb(212 212 212);
-          border-radius: 0;
+
+          .DimensionControl-RadioButton {
+            flex-grow: 1;
+          }
+
+          :deep(.el-radio-button__inner) {
+            width: 100%;
+            border-color: rgb(212 212 212);
+            border-radius: 0;
+          }
+        }
+      }
+
+      .controlPanel__controls-layer {
+        margin-bottom: 0.5rem;
+
+        &:last-child {
+          margin-bottom: 0;
         }
       }
     }

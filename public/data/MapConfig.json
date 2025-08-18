@@ -87,6 +87,32 @@
       "type": "GeoJSONLayer",
       "isLocal": true,
       "url": "data/geojson/MrtMultiLine.json"
+    },
+    {
+      "id": "13",
+      "name": "測繪中心村里界(WMTSLayer)",
+      "type": "WMTSLayer",
+      "isLocal": false,
+      "url": "https://wmts.nlsc.gov.tw/wmts",
+      "params": {
+        "activeLayer": {
+          "id": "Village"
+        }
+      }
+    },
+    {
+      "id": "14",
+      "name": "測繪中心鄉鎮區界(WMSLayer)",
+      "type": "WMSLayer",
+      "isLocal": false,
+      "url": "https://wms.nlsc.gov.tw/wms",
+      "params": {
+        "sublayers": [
+          {
+            "name": "TOWN"
+          }
+        ]
+      }
     }
   ]
 }
