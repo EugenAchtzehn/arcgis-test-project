@@ -1,8 +1,11 @@
 <template>
   <main class="container">
     <div class="map" ref="mapDiv"></div>
-    <control-panel :map-div="mapDiv"></control-panel>
-    <!-- <toggle-panel-button></toggle-panel-button> -->
+    <control-panel :map-div="mapDiv" :is-hidden="isControlPanelHidden"></control-panel>
+    <toggle-panel-button
+      :is-hidden="isControlPanelHidden"
+      @toggle-panel="toggleControlPanel"
+    ></toggle-panel-button>
     <map-footer></map-footer>
   </main>
 </template>
@@ -14,6 +17,11 @@
   import MapFooter from "@/components/MapFooter.vue";
 
   const layerStore = useLayerStore();
+  const isControlPanelHidden = ref(false);
+
+  function toggleControlPanel() {
+    isControlPanelHidden.value = !isControlPanelHidden.value;
+  }
 
   onMounted(async () => {
     const baseUrl = import.meta.env.VITE_BASE_URL;
@@ -30,6 +38,8 @@
   .container {
     position: relative;
     display: flex;
+    overflow: hidden;
+    width: 100vw;
     height: calc(100vh - var(--navigation-height));
 
     .map {

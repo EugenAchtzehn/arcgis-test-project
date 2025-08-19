@@ -62,7 +62,7 @@
     justify-content: space-between;
     padding: 8px;
     border: 0.6667px solid rgb(212 212 212);
-    background-color: #fff;
+    background-color: #e8f5e9;
 
     .layerItem__header {
       display: flex;

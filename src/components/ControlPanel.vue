@@ -1,5 +1,5 @@
 <template>
-  <div class="controlPanel">
+  <div class="controlPanel" :class="{ 'is-hidden': isHidden }">
     <h2 class="controlPanel__title">Control Panel</h2>
     <div class="controlPanel__controls">
       <div class="controlPanel__controls-switcher">
@@ -12,12 +12,14 @@
           <el-radio-button class="DimensionControl-RadioButton" label="3D" value="sceneView" />
         </el-radio-group>
       </div>
-      <layer-item
-        class="controlPanel__controls-layer"
-        v-for="layer in layerStore.layers"
-        :key="layer.id"
-        :layer="layer"
-      ></layer-item>
+      <div class="controlPanel__controls-layers">
+        <layer-item
+          class="controlPanel__controls-layer"
+          v-for="layer in layerStore.layers"
+          :key="layer.id"
+          :layer="layer"
+        ></layer-item>
+      </div>
     </div>
   </div>
 </template>
@@ -34,6 +36,7 @@
 
   const props = defineProps<{
     mapDiv: HTMLDivElement | null;
+    isHidden: boolean;
   }>();
 
   function eChangeSceneMode() {
@@ -84,23 +87,27 @@
     top: 4px;
     right: 4px;
     bottom: 26px;
+    transition: all 0.3s ease-in-out;
     width: 300px;
-    height: calc(100% - 30px);
-    background-color: #fff;
-    overflow-y: auto;
+    border-radius: 0.25rem;
+    background-color: #1b813e;
+
+    &.is-hidden {
+      right: -300px;
+    }
 
     .controlPanel__title {
       padding: 0.5rem;
+      color: #fff;
       text-align: center;
-      font-size: 2rem;
       font-weight: 500;
     }
 
     .controlPanel__controls {
-      padding: 0.5rem;
+      height: calc(100% - 58px);
 
       .controlPanel__controls-switcher {
-        margin-bottom: 0.5rem;
+        padding: 0.5rem;
 
         .DimensionControl-RadioGroup {
           display: flex;
@@ -118,11 +125,34 @@
         }
       }
 
-      .controlPanel__controls-layer {
-        margin-bottom: 0.5rem;
+      .controlPanel__controls-layers {
+        /* 扣除 2D/3D 切換元件和上下 margin */
+        height: calc(100% - 48px - 1rem);
+        margin: 0.5rem 0.25rem 0.5rem 0;
+        padding: 0 0.25rem 0 0.5rem;
+        overflow-y: auto;
 
-        &:last-child {
-          margin-bottom: 0;
+        &::-webkit-scrollbar {
+          width: 4px;
+          height: 4px;
+        }
+
+        &::-webkit-scrollbar-thumb {
+          border-radius: 2px;
+          background-color: #aaa;
+        }
+
+        &::-webkit-scrollbar-track {
+          border-radius: 2px;
+          background-color: transparent;
+        }
+
+        .controlPanel__controls-layer {
+          margin-bottom: 0.5rem;
+
+          &:last-child {
+            margin-bottom: 0;
+          }
         }
       }
     }
