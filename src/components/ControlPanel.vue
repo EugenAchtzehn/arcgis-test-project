@@ -90,6 +90,8 @@
     transition: all 0.3s ease-in-out;
     width: 300px;
     border-radius: 0.25rem;
+
+    /* 常磐 */
     background-color: #1b813e;
 
     &.is-hidden {
