@@ -6,6 +6,7 @@ import WMTSLayer from "@arcgis/core/layers/WMTSLayer";
 import WMSLayer from "@arcgis/core/layers/WMSLayer";
 import GraphicsLayer from "@arcgis/core/layers/GraphicsLayer";
 import VectorTileLayer from "@arcgis/core/layers/VectorTileLayer";
+import Extent from "@arcgis/core/geometry/Extent";
 
 // ===== other 3rd party =====
 import axios from "axios";
@@ -74,9 +75,9 @@ export async function addLayerToMap(layer: Layer, map: __esri.Map): Promise<void
     updateLayerArcgisId(layer, arcgisLayer.id);
     map.add(arcgisLayer);
 
-    // Handle map view extent for FeatureLayer
-    if (layer.type === "FeatureLayer" && arcgisLayer instanceof FeatureLayer) {
-      await handleFeatureLayerExtent(arcgisLayer);
+    // Handle map view extent for layers that support queryExtent
+    if (layer.type === "FeatureLayer" || layer.type === "GeoJSONLayer") {
+      await handleLayerExtent(arcgisLayer);
     }
   }
 }
@@ -167,22 +168,40 @@ function createWMSLayer(layer: Layer): WMSLayer {
 }
 
 /**
- * Handle FeatureLayer extent and map view navigation
+ * Handle layer extent and map view navigation for any layer type that supports queryExtent
  */
-async function handleFeatureLayerExtent(featureLayer: FeatureLayer): Promise<void> {
+async function handleLayerExtent(layer: __esri.Layer): Promise<void> {
   const mapStore = useMapStore();
   if (!mapStore.mapView) return;
 
   try {
-    const extent =
-      featureLayer.fullExtent ?? (await featureLayer.queryExtent({ where: "1=1" })).extent;
+    // Check if the layer supports queryExtent method
+    if (typeof (layer as any).queryExtent !== "function") {
+      console.warn(`Layer type ${layer.type} does not support queryExtent`);
+      return;
+    }
 
-    mapStore.mapView.goTo({
-      center: [extent.center.x, extent.center.y],
-      zoom: 11,
-    });
+    // Get extent from layer (prefer fullExtent, fallback to queryExtent)
+    let extent: __esri.Extent;
+
+    if ((layer as any).fullExtent) {
+      extent = (layer as any).fullExtent;
+    } else {
+      // 通用查詢條件
+      const queryResult = await (layer as any).queryExtent({ where: "1=1" });
+      extent = queryResult.extent;
+    }
+
+    // Navigate to the layer extent
+    if (mapStore.currentMode === "TwoD") {
+      mapStore.mapView.goTo(extent);
+    } else {
+      mapStore.sceneView?.goTo(extent);
+    }
+
+    console.log(`Successfully navigated to ${layer.type} extent:`, extent);
   } catch (error) {
-    console.warn("Failed to handle FeatureLayer extent:", error);
+    console.warn(`Failed to handle ${layer.type} extent:`, error);
   }
 }
 
