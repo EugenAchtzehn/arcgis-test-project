@@ -34,3 +34,4 @@ coverage
 # Auto-generated type files
 auto-imports.d.ts
 components.d.ts
+stats.html
