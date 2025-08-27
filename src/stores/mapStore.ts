@@ -31,9 +31,14 @@ export const useMapStore = defineStore("mapStore", () => {
     });
   }
 
-  const currentMode = ref<"TwoD" | "ThreeD">("TwoD");
-  function setCurrentMode(mode: "TwoD" | "ThreeD") {
+  // TwoD === mapView
+  // ThreeD === sceneView
+  type MapMode = "TwoD" | "ThreeD";
+
+  const currentMode = ref<MapMode>("TwoD");
+  function setCurrentMode(mode: MapMode) {
     currentMode.value = mode;
+    console.log(currentMode.value);
   }
 
   const currentCenter = ref<[number, number] | null>(null);

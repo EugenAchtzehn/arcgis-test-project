@@ -42,6 +42,24 @@ export async function toggleLayer(layer: Layer, map: __esri.Map): Promise<boolea
   }
 }
 
+// 只調整 visible 無法處理 console 中的錯誤，整體機制待改善
+// 可能要重新 create 跟 remove 一次
+export function setVisible3DLayers(layers: Layer[], map: __esri.Map): void {
+  const threeDOnlyLayers = layers.filter((l) => l.type === "SceneLayer");
+  threeDOnlyLayers.forEach((l) => {
+    const layer = map.findLayerById(l.arcgis_id);
+    if (isDefined(layer)) layer.visible = true;
+  });
+}
+
+export function setInvisible3DLayers(layers: Layer[], map: __esri.Map): void {
+  const threeDOnlyLayers = layers.filter((l) => l.type === "SceneLayer");
+  threeDOnlyLayers.forEach((l) => {
+    const layer = map.findLayerById(l.arcgis_id);
+    if (isDefined(layer)) layer.visible = false;
+  });
+}
+
 /**
  * @description Add layer to map by layer type
  * @param layer - Layer object
@@ -224,5 +242,5 @@ function resetLayerArcgisId(layer: Layer): void {
   const layerStore = useLayerStore();
   const updatingLayer = layerStore.layers.find((l) => l.id === layer.id);
   if (!isDefined(updatingLayer)) return;
-  updatingLayer.arcgis_id = null;
+  updatingLayer.arcgis_id = "";
 }

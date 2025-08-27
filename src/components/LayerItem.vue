@@ -38,7 +38,7 @@
   // 3D 模式下，顯示所有圖層
   function validForCurrentMode(layer: Layer) {
     if (mapStore.currentMode === "TwoD") {
-      return !layer.onlyThreeD;
+      return layer.type !== "SceneLayer";
     } else {
       return true;
     }

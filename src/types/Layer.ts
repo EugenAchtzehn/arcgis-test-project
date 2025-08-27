@@ -3,7 +3,7 @@ import { v4 as uuid } from "uuid";
 // Layer definition
 export interface Layer {
   id: string;
-  arcgis_id: string | null;
+  arcgis_id: string;
   draggable_uuid: string;
   name: string;
   type: string;
@@ -11,7 +11,7 @@ export interface Layer {
   url: string;
   opacity: number;
   visible: boolean;
-  onlyThreeD: boolean;
+  // onlyThreeD: boolean;
   params: Record<string, any>;
 }
 
@@ -28,10 +28,13 @@ export class Layer implements Layer {
     // set by default value
     this.opacity = 1;
     this.visible = true;
+
     // 目前只有 SceneLayer 只能給 SceneView 使用
-    this.onlyThreeD = layer.type === "SceneLayer";
+    // 另外還有 ElevationLayer, IntegratedMeshLayer
+    // this.onlyThreeD = layer.type === "SceneLayer";
+
     // if null, then it is not instanced.
-    this.arcgis_id = null;
+    this.arcgis_id = "";
     // set by default value
     this.params = layer.params || {};
   }

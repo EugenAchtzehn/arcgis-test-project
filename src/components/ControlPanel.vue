@@ -5,11 +5,11 @@
       <div class="controlPanel__controls-switcher">
         <el-radio-group
           class="DimensionControl-RadioGroup"
-          v-model="isSceneMode"
-          @change="eChangeSceneMode"
+          v-model="mapStore.currentMode"
+          @change="eChangeMode"
         >
-          <el-radio-button class="DimensionControl-RadioButton" label="2D" value="mapView" />
-          <el-radio-button class="DimensionControl-RadioButton" label="3D" value="sceneView" />
+          <el-radio-button class="DimensionControl-RadioButton" label="2D" value="TwoD" />
+          <el-radio-button class="DimensionControl-RadioButton" label="3D" value="ThreeD" />
         </el-radio-group>
       </div>
       <div class="controlPanel__controls-layers">
@@ -28,10 +28,10 @@
   import { useLayerStore } from "@/stores/layerStore";
 
   import { isDefined } from "@/lib/utils/isDefined";
+  import { setVisible3DLayers, setInvisible3DLayers } from "@/lib/maps/arcgisMapController";
 
   const mapStore = useMapStore();
   const layerStore = useLayerStore();
-  const isSceneMode = ref("mapView");
   const { t } = useI18n();
 
   const props = defineProps<{
@@ -39,11 +39,13 @@
     isHidden: boolean;
   }>();
 
-  function eChangeSceneMode() {
-    console.log(isSceneMode.value);
-    if (!isDefined(mapStore.mapView) || !isDefined(mapStore.sceneView)) return;
-    // 2D to 3D
-    if (isSceneMode.value === "sceneView") {
+  // v-model 已經改了 store 此函數才觸發
+  function eChangeMode() {
+    if (!isDefined(mapStore.map) || !isDefined(mapStore.mapView) || !isDefined(mapStore.sceneView))
+      return;
+
+    // called when 2D to 3D
+    if (mapStore.currentMode === "ThreeD") {
       // update current center and zoom from mapView
       const center = [mapStore.mapView.center.longitude, mapStore.mapView.center.latitude] as [
         number,
@@ -52,17 +54,20 @@
       const zoom = mapStore.mapView.zoom;
       mapStore.setCurrentCenter(center);
       mapStore.setCurrentZoom(zoom);
-      mapStore.setCurrentMode("ThreeD");
 
       if (!isDefined(mapStore.currentCenter) || !isDefined(mapStore.currentZoom)) return;
+
+      // set 3D only layers visible
+      // setVisible3DLayers(layerStore.layers, mapStore.map);
 
       mapStore.mapView.container = null;
       mapStore.sceneView.center = mapStore.currentCenter;
       mapStore.sceneView.zoom = mapStore.currentZoom;
       mapStore.sceneView.container = props.mapDiv;
     }
-    // 3D to 2D
-    if (isSceneMode.value === "mapView") {
+
+    // called when 3D to 2D
+    if (mapStore.currentMode === "TwoD") {
       const center = [mapStore.sceneView.center.longitude, mapStore.sceneView.center.latitude] as [
         number,
         number,
@@ -70,9 +75,11 @@
       const zoom = mapStore.sceneView.zoom;
       mapStore.setCurrentCenter(center);
       mapStore.setCurrentZoom(zoom);
-      mapStore.setCurrentMode("TwoD");
 
       if (!isDefined(mapStore.currentCenter) || !isDefined(mapStore.currentZoom)) return;
+
+      // set 3D only layers invisible
+      // setInvisible3DLayers(layerStore.layers, mapStore.map);
 
       mapStore.sceneView.container = null;
       mapStore.mapView.center = mapStore.currentCenter;
