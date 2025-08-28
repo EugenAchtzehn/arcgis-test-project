@@ -113,6 +113,27 @@
           }
         ]
       }
+    },
+    {
+      "id": "15",
+      "name": "美國範例(FeatureLayer)",
+      "type": "FeatureLayer",
+      "isLocal": false,
+      "url": "https://sampleserver6.arcgisonline.com/arcgis/rest/services/USA/MapServer/0"
+    },
+    {
+      "id": "16",
+      "name": "測繪中心3DTiles",
+      "type": "IntegratedMesh3DTilesLayer",
+      "isLocal": false,
+      "url": "https://3dtiles.nlsc.gov.tw/building/tiles3d/22/tileset.json"
+    },
+    {
+      "id": "17",
+      "name": "USGS 地震(GeoJSONLayer)",
+      "type": "GeoJSONLayer",
+      "isLocal": false,
+      "url": "https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/all_month.geojson"
     }
   ]
 }

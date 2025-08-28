@@ -35,12 +35,12 @@
     }
   }
 
-  // 3D 模式下，顯示所有圖層
+  // 2D 模式下不顯示 3D 圖層，3D 模式下，顯示所有圖層
   function validForCurrentMode(layer: Layer) {
     if (mapStore.currentMode === "TwoD") {
-      return layer.type !== "SceneLayer";
+      return !layer.onlyThreeD;
     } else {
-      return true;
+      return layer.onlyThreeD;
     }
   }
 

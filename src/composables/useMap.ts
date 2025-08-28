@@ -50,9 +50,6 @@ export function setupMap() {
       },
     });
 
-    // const featureLayer = createFeatureLayer();
-    // webMap.add(featureLayer);
-
     mapStore.setMap(webMap);
     mapStore.setMapView(mapView);
     mapStore.setSceneView(sceneView);

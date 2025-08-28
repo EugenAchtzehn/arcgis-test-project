@@ -1,6 +1,7 @@
 // ===== esri =====
 import FeatureLayer from "@arcgis/core/layers/FeatureLayer";
 import SceneLayer from "@arcgis/core/layers/SceneLayer";
+import IntegratedMesh3DTilesLayer from "@arcgis/core/layers/IntegratedMesh3DTilesLayer";
 import GeoJSONLayer from "@arcgis/core/layers/GeoJSONLayer";
 import WMTSLayer from "@arcgis/core/layers/WMTSLayer";
 import WMSLayer from "@arcgis/core/layers/WMSLayer";
@@ -45,7 +46,7 @@ export async function toggleLayer(layer: Layer, map: __esri.Map): Promise<boolea
 // 只調整 visible 無法處理 console 中的錯誤，整體機制待改善
 // 可能要重新 create 跟 remove 一次
 export function setVisible3DLayers(layers: Layer[], map: __esri.Map): void {
-  const threeDOnlyLayers = layers.filter((l) => l.type === "SceneLayer");
+  const threeDOnlyLayers = layers.filter((l) => l.onlyThreeD);
   threeDOnlyLayers.forEach((l) => {
     const layer = map.findLayerById(l.arcgis_id);
     if (isDefined(layer)) layer.visible = true;
@@ -53,7 +54,7 @@ export function setVisible3DLayers(layers: Layer[], map: __esri.Map): void {
 }
 
 export function setInvisible3DLayers(layers: Layer[], map: __esri.Map): void {
-  const threeDOnlyLayers = layers.filter((l) => l.type === "SceneLayer");
+  const threeDOnlyLayers = layers.filter((l) => l.onlyThreeD);
   threeDOnlyLayers.forEach((l) => {
     const layer = map.findLayerById(l.arcgis_id);
     if (isDefined(layer)) layer.visible = false;
@@ -83,6 +84,9 @@ export async function addLayerToMap(layer: Layer, map: __esri.Map): Promise<void
       break;
     case "WMSLayer":
       arcgisLayer = createWMSLayer(layer);
+      break;
+    case "IntegratedMesh3DTilesLayer":
+      arcgisLayer = createIntegratedMesh3DTilesLayer(layer);
       break;
     default:
       console.warn(`Unsupported layer type: ${layer.type}`);
@@ -131,31 +135,50 @@ function createSceneLayer(layer: Layer): SceneLayer {
 }
 
 /**
+ * Create IntegratedMesh3DTilesLayer
+ */
+function createIntegratedMesh3DTilesLayer(layer: Layer): IntegratedMesh3DTilesLayer {
+  return new IntegratedMesh3DTilesLayer({ url: layer.url });
+}
+
+/**
  * Create FeatureLayer with GeoJSON processing
  */
 async function createFeatureLayer(layer: Layer): Promise<FeatureLayer> {
-  const { data } = await axios.get(layer.url);
-  const parsedData = parseGeoJsonToArcGIS(data);
+  // Custom / client-side data processing
+  if (layer.isLocal) {
+    const { data } = await axios.get(layer.url);
+    const parsedData = parseGeoJsonToArcGIS(data);
 
-  if (!isDefined(parsedData)) {
-    throw new Error("Failed to parse GeoJSON data");
+    if (!isDefined(parsedData)) {
+      throw new Error("Failed to parse GeoJSON data");
+    }
+
+    const { source, popupTemplate, objectIdField } = parsedData;
+
+    // Debug logs
+    console.log("FeatureLayer source:", source);
+    console.log("FeatureLayer popupTemplate:", popupTemplate);
+    console.log("FeatureLayer objectIdField:", objectIdField);
+
+    return new FeatureLayer({
+      source,
+      objectIdField: objectIdField,
+      popupTemplate: popupTemplate || {
+        title: "Feature Information",
+        content: "No properties available",
+      },
+    });
+  } else {
+    // Feature service created by actual ArcGIS Server
+    return new FeatureLayer({
+      url: layer.url,
+      popupTemplate: {
+        title: "Feature Information",
+        content: "No properties available",
+      },
+    });
   }
-
-  const { source, popupTemplate, objectIdField } = parsedData;
-
-  // Debug logs
-  console.log("FeatureLayer source:", source);
-  console.log("FeatureLayer popupTemplate:", popupTemplate);
-  console.log("FeatureLayer objectIdField:", objectIdField);
-
-  return new FeatureLayer({
-    source,
-    objectIdField: objectIdField,
-    popupTemplate: popupTemplate || {
-      title: "Feature Information",
-      content: "No properties available",
-    },
-  });
 }
 
 /**

@@ -13,6 +13,7 @@ export interface Layer {
   visible: boolean;
   // onlyThreeD: boolean;
   params: Record<string, any>;
+  onlyThreeD: boolean;
 }
 
 export class Layer implements Layer {
@@ -28,27 +29,14 @@ export class Layer implements Layer {
     // set by default value
     this.opacity = 1;
     this.visible = true;
-
-    // 目前只有 SceneLayer 只能給 SceneView 使用
-    // 另外還有 ElevationLayer, IntegratedMeshLayer
-    // this.onlyThreeD = layer.type === "SceneLayer";
-
-    // if null, then it is not instanced.
+    this.onlyThreeD = isThreeDLayer(layer.type);
+    // When "", means it is not mounted to the map.
     this.arcgis_id = "";
-    // set by default value
+    // When not set in config, default value is an empty object.
     this.params = layer.params || {};
   }
 }
 
-// // Define the type of the input data, excluding the automatically generated properties
-// export type LayerData = Omit<Layer, "draggable_uuid" | "opacity" | "visible">;
-
-// // Using factory function to create Layer
-// export function createLayerFromConfig(layerConfig: LayerData): Layer {
-//   return {
-//     ...layerConfig,
-//     draggable_uuid: uuid(),
-//     opacity: 1,
-//     visible: true,
-//   };
-// }
+function isThreeDLayer(type: string) {
+  return ["SceneLayer", "IntegratedMesh3DTilesLayer", "ElevationLayer"].includes(type);
+}
