@@ -161,9 +161,29 @@ async function createFeatureLayer(layer: Layer): Promise<FeatureLayer> {
     console.log("FeatureLayer popupTemplate:", popupTemplate);
     console.log("FeatureLayer objectIdField:", objectIdField);
 
+    // 從 source 中提取所有欄位名稱
+    const fields =
+      source.length > 0 && source[0].attributes
+        ? Object.keys(source[0].attributes).map((key) => {
+            const value = source[0].attributes[key];
+            let fieldType: "string" | "integer" | "double" = "string";
+
+            if (typeof value === "number") {
+              fieldType = Number.isInteger(value) ? "integer" : "double";
+            }
+
+            return {
+              name: key,
+              type: fieldType,
+              alias: key,
+            };
+          })
+        : [];
+
     return new FeatureLayer({
       source,
       objectIdField: objectIdField,
+      fields: fields,
       popupTemplate: popupTemplate || {
         title: "Feature Information",
         content: "No properties available",

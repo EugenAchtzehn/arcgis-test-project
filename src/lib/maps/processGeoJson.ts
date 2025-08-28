@@ -65,22 +65,6 @@ function generatePopupTemplate(features: Feature[]): any {
   // 試著尋找適合的標題欄位
   const titleField = findTitleField(propertyKeys);
 
-  // 生成 popup 內容 - 使用 ArcGIS 的欄位格式
-  const content = propertyKeys
-    .map((key) => {
-      const displayKey = formatFieldName(key);
-      return `${displayKey}: {${key}}`;
-    })
-    .join("<br>");
-
-  // 加入測試訊息
-  console.log("Generated popupTemplate:", {
-    title: titleField ? `{${titleField}}` : "Feature Information",
-    content: content,
-    propertyKeys: propertyKeys,
-    properties: properties,
-  });
-
   // 生成 fieldInfos 來確保所有欄位都被正確處理
   const fieldInfos = propertyKeys.map((key) => ({
     fieldName: key,
@@ -88,12 +72,28 @@ function generatePopupTemplate(features: Feature[]): any {
     visible: true,
   }));
 
-  return {
+  // 使用 ArcGIS 的標準 popupTemplate 格式
+  const popupTemplate = {
     title: titleField ? `{${titleField}}` : "Feature Information",
-    content: content,
-    fieldInfos: fieldInfos,
-    outFields: ["*"],
+    content: [
+      {
+        type: "fields",
+        fieldInfos: fieldInfos,
+      },
+    ],
+    outFields: propertyKeys, // 明確指定所有欄位
   };
+
+  // 加入測試訊息
+  console.log("Generated popupTemplate:", {
+    title: popupTemplate.title,
+    content: popupTemplate.content,
+    fieldInfos: fieldInfos,
+    propertyKeys: propertyKeys,
+    properties: properties,
+  });
+
+  return popupTemplate;
 }
 
 /**
