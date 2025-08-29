@@ -2,6 +2,7 @@ import type Map from "@arcgis/core/Map";
 import type MapView from "@arcgis/core/views/MapView";
 import type SceneView from "@arcgis/core/views/SceneView";
 import { isDefined } from "@/lib/utils/isDefined";
+import type { MapMode } from "@/types/Map";
 
 export const useMapStore = defineStore("mapStore", () => {
   const map = shallowRef<Map | null>(null);
@@ -31,11 +32,7 @@ export const useMapStore = defineStore("mapStore", () => {
     });
   }
 
-  // TwoD === mapView
-  // ThreeD === sceneView
-  type MapMode = "TwoD" | "ThreeD";
-
-  const currentMode = ref<MapMode>("TwoD");
+  const currentMode = ref<MapMode>("SceneView");
   function setCurrentMode(mode: MapMode) {
     currentMode.value = mode;
     console.log(currentMode.value);

@@ -2,5 +2,9 @@
   "ControlPanel": {
     "NoValidLongitude": "No valid longitude",
     "NoValidLatitude": "No valid latitude"
+  },
+  "TabsControl": {
+    "layerList": "Layer List",
+    "loadedLayers": "Loaded Layers"
   }
 }

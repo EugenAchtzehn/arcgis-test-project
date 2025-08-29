@@ -123,13 +123,6 @@
     },
     {
       "id": "16",
-      "name": "測繪中心3DTiles",
-      "type": "IntegratedMesh3DTilesLayer",
-      "isLocal": false,
-      "url": "https://3dtiles.nlsc.gov.tw/building/tiles3d/22/tileset.json"
-    },
-    {
-      "id": "17",
       "name": "USGS 地震(GeoJSONLayer)",
       "type": "GeoJSONLayer",
       "isLocal": false,

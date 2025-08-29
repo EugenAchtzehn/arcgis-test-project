@@ -4,6 +4,7 @@ import MapView from "@arcgis/core/views/MapView";
 import SceneView from "@arcgis/core/views/SceneView";
 import { isDefined } from "@/lib/utils/isDefined";
 import { useMapStore } from "@/stores/mapStore";
+import type { MapMode } from "@/types/Map";
 
 export function setupMap() {
   const mapStore = useMapStore();
@@ -27,7 +28,7 @@ export function setupMap() {
     if (!isDefined(mapStore.currentCenter) || !isDefined(mapStore.currentZoom)) return;
 
     const mapView = new MapView({
-      container: mapDiv.value,
+      container: mapStore.currentMode === "MapView" ? mapDiv.value : null,
       map: webMap,
       center: initialCenter,
       zoom: initialZoom,
@@ -41,7 +42,7 @@ export function setupMap() {
     });
 
     const sceneView = new SceneView({
-      container: null,
+      container: mapStore.currentMode === "SceneView" ? mapDiv.value : null,
       map: webMap,
       center: initialCenter,
       zoom: initialZoom,

@@ -1,6 +1,6 @@
 <template>
   <div class="button__wrapper" @click="togglePanel" :class="{ 'is-hidden': isHidden }">
-    <el-icon :size="20" :color="'#333'">
+    <el-icon :size="16" color="#333">
       <DArrowLeft v-if="isHidden"></DArrowLeft>
       <DArrowRight v-else></DArrowRight>
     </el-icon>
@@ -24,22 +24,25 @@
 <style lang="css" scoped>
   .button__wrapper {
     position: absolute;
-    border-top-left-radius: 0.25rem;
-    border-bottom-left-radius: 0.25rem;
     top: 20px;
     right: 304px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
     cursor: pointer;
     transition: right 0.3s ease-in-out;
     width: 20px;
     height: 20px;
-    background-color: rgb(255 196 8 / 80%);
+    background-color: #ffc408;
+    border-top-left-radius: 0.25rem;
+    border-bottom-left-radius: 0.25rem;
 
     &.is-hidden {
       right: 0;
     }
 
     &:hover {
-      background-color: rgb(255 196 8);
+      background-color: #ffd944;
     }
   }
 </style>

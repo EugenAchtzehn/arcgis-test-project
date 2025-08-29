@@ -205,7 +205,13 @@ async function createFeatureLayer(layer: Layer): Promise<FeatureLayer> {
  * Create GeoJSONLayer
  */
 function createGeoJSONLayer(layer: Layer): GeoJSONLayer {
-  return new GeoJSONLayer({ url: layer.url });
+  return new GeoJSONLayer({
+    url: layer.url,
+    popupTemplate: {
+      title: "Popup-Title",
+      content: "Popup-Content",
+    },
+  });
 }
 
 /**
@@ -254,7 +260,7 @@ async function handleLayerExtent(layer: __esri.Layer): Promise<void> {
     }
 
     // Navigate to the layer extent
-    if (mapStore.currentMode === "TwoD") {
+    if (mapStore.currentMode === "MapView") {
       mapStore.mapView.goTo(extent);
     } else {
       mapStore.sceneView?.goTo(extent);

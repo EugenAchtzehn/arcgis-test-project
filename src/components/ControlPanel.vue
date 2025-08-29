@@ -8,17 +8,15 @@
           v-model="mapStore.currentMode"
           @change="eChangeMode"
         >
-          <el-radio-button class="DimensionControl-RadioButton" label="2D" value="TwoD" />
-          <el-radio-button class="DimensionControl-RadioButton" label="3D" value="ThreeD" />
+          <el-radio-button class="DimensionControl-RadioButton" label="3D" value="SceneView" />
+          <el-radio-button class="DimensionControl-RadioButton" label="2D" value="MapView" />
         </el-radio-group>
       </div>
-      <div class="controlPanel__controls-layers">
-        <layer-item
-          class="controlPanel__controls-layer"
-          v-for="layer in layerStore.layers"
-          :key="layer.id"
-          :layer="layer"
-        ></layer-item>
+      <div class="tabs__wrapper">
+        <!-- 圖層列表 -->
+        <layer-list v-if="uiStore.activeTab === 'layerList'"></layer-list>
+        <!-- 已加入圖層 -->
+        <loaded-layer-list v-if="uiStore.activeTab === 'loadedLayers'"></loaded-layer-list>
       </div>
     </div>
   </div>
@@ -26,12 +24,14 @@
 <script setup lang="ts">
   import { useMapStore } from "@/stores/mapStore";
   import { useLayerStore } from "@/stores/layerStore";
+  import { useUiStore } from "@/stores/uiStore";
 
   import { isDefined } from "@/lib/utils/isDefined";
   import { setVisible3DLayers, setInvisible3DLayers } from "@/lib/maps/arcgisMapController";
 
   const mapStore = useMapStore();
   const layerStore = useLayerStore();
+  const uiStore = useUiStore();
   const { t } = useI18n();
 
   const props = defineProps<{
@@ -45,7 +45,7 @@
       return;
 
     // called when 2D to 3D
-    if (mapStore.currentMode === "ThreeD") {
+    if (mapStore.currentMode === "SceneView") {
       // update current center and zoom from mapView
       const center = [mapStore.mapView.center.longitude, mapStore.mapView.center.latitude] as [
         number,
@@ -67,7 +67,7 @@
     }
 
     // called when 3D to 2D
-    if (mapStore.currentMode === "TwoD") {
+    if (mapStore.currentMode === "MapView") {
       const center = [mapStore.sceneView.center.longitude, mapStore.sceneView.center.latitude] as [
         number,
         number,
@@ -134,7 +134,7 @@
         }
       }
 
-      .controlPanel__controls-layers {
+      .tabs__wrapper {
         /* 扣除 2D/3D 切換元件和上下 margin */
         height: calc(100% - 48px - 1rem);
         margin: 0.5rem 0.25rem 0.5rem 0;
@@ -154,14 +154,6 @@
         &::-webkit-scrollbar-track {
           border-radius: 2px;
           background-color: transparent;
-        }
-
-        .controlPanel__controls-layer {
-          margin-bottom: 0.5rem;
-
-          &:last-child {
-            margin-bottom: 0;
-          }
         }
       }
     }

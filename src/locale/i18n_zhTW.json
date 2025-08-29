@@ -2,5 +2,9 @@
   "ControlPanel": {
     "NoValidLongitude": "無有效的經度",
     "NoValidLatitude": "無有效的緯度"
+  },
+  "TabsControl": {
+    "LayerList": "圖層列表",
+    "LoadedLayers": "已加入圖層"
   }
 }
