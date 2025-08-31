@@ -8,10 +8,10 @@
     <div class="layerItem__name">{{ props.layer.name }}</div>
     <div class="layerItem__controls">
       <!-- View or Hide -->
-      <div class="layerItem__control control-view" @click="eChangeVisible">
+      <div class="layerItem__control control-view" @click="eClickViewOrHide">
         <el-icon :size="16" :color="'#fff'">
-          <View v-if="props.layer.visible" />
-          <Hide v-else />
+          <Hide v-if="props.layer.visible" />
+          <View v-else />
         </el-icon>
       </div>
       <!-- Delete this layer -->
@@ -21,52 +21,41 @@
         </el-icon>
       </div>
     </div>
-
-    <!-- <el-switch v-model="props.layer.visible" @change="eChangeVisible"></el-switch> -->
   </div>
 </template>
 <script setup lang="ts">
-  import { Layer } from "@/types/Layer";
+  import type { LoadedLayer } from "@/types/Layer";
   import { useMapStore } from "@/stores/mapStore";
   import { isDefined } from "@/lib/utils/isDefined";
-  import { addLayerToMap, removeLayerFromMap } from "@/lib/maps/arcgisMapController";
-  import { buildUrlForLocalData } from "@/lib/utils/buildUrl";
+  import { removeLayerFromMap, showLayer, hideLayer } from "@/lib/maps/arcgisMapController";
   import { Delete, Hide, View } from "@element-plus/icons-vue";
 
-  const layerActive = ref<boolean>(false);
   const mapStore = useMapStore();
   const props = defineProps<{
-    layer: Layer;
+    layer: LoadedLayer;
   }>();
 
-  function eChangeVisible() {
-    if (props.layer.isLocal) {
-      // const builtUrl = buildUrlForLocalData(props.layer.url);
+  function eClickViewOrHide() {
+    if (!isDefined(mapStore.map)) return;
+
+    if (props.layer.visible) {
+      hideLayer(props.layer, mapStore.map);
+    } else {
+      showLayer(props.layer, mapStore.map);
     }
   }
 
   function eClickRemoveLayer() {
-    if (props.layer.isLocal) {
-      // const builtUrl = buildUrlForLocalData(props.layer.url);
-    }
+    if (!isDefined(mapStore.map)) return;
+    removeLayerFromMap(props.layer, mapStore.map);
   }
 
   // 2D 模式下不顯示 3D 圖層，3D 模式下，顯示所有圖層
-  function validForCurrentMode(layer: Layer) {
+  function validForCurrentMode(layer: LoadedLayer) {
     if (mapStore.currentMode === "MapView") {
       return !layer.onlyThreeD;
     } else {
       return true;
-    }
-  }
-
-  async function eChangeActive() {
-    if (!isDefined(mapStore.map)) return;
-
-    if (layerActive.value) {
-      await addLayerToMap(props.layer, mapStore.map);
-    } else {
-      await removeLayerFromMap(props.layer, mapStore.map);
     }
   }
 </script>

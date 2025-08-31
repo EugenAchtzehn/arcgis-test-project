@@ -68,7 +68,7 @@ function generatePopupTemplate(features: Feature[]): any {
   // 生成 fieldInfos 來確保所有欄位都被正確處理
   const fieldInfos = propertyKeys.map((key) => ({
     fieldName: key,
-    label: formatFieldName(key),
+    label: key,
     visible: true,
   }));
 

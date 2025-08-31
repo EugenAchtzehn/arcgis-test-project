@@ -5,9 +5,6 @@ import IntegratedMesh3DTilesLayer from "@arcgis/core/layers/IntegratedMesh3DTile
 import GeoJSONLayer from "@arcgis/core/layers/GeoJSONLayer";
 import WMTSLayer from "@arcgis/core/layers/WMTSLayer";
 import WMSLayer from "@arcgis/core/layers/WMSLayer";
-import GraphicsLayer from "@arcgis/core/layers/GraphicsLayer";
-import VectorTileLayer from "@arcgis/core/layers/VectorTileLayer";
-import Extent from "@arcgis/core/geometry/Extent";
 
 // ===== other 3rd party =====
 import axios from "axios";
@@ -23,42 +20,45 @@ import type { FeatureCollection } from "geojson";
 
 // ===== self-defined types =====
 import { Layer } from "@/types/Layer";
+import type { LoadedLayer } from "@/types/Layer";
 
 /**
- * @description Toggle layer visibility on map (add if not present, remove if present)
+ * @description Toggle layer visibility on map
  * @param layer - Layer object
  * @param map - ArcGIS Map instance
- * @returns Promise<boolean> - true if layer was added, false if removed
  */
-export async function toggleLayer(layer: Layer, map: __esri.Map): Promise<boolean> {
-  // Check if layer is already on map
-  if (isDefined(layer.arcgis_id) && map.findLayerById(layer.arcgis_id)) {
-    // Layer exists, remove it
-    await removeLayerFromMap(layer, map);
-    return false;
+export function toggleLayer(layer: LoadedLayer, map: __esri.Map): void {
+  if (layer.arcgis_id !== "" && map.findLayerById(layer.arcgis_id)) {
+    hideLayer(layer, map);
   } else {
-    // Layer doesn't exist, add it
-    await addLayerToMap(layer, map);
-    return true;
+    showLayer(layer, map);
   }
 }
 
-// 只調整 visible 無法處理 console 中的錯誤，整體機制待改善
-// 可能要重新 create 跟 remove 一次
-export function setVisible3DLayers(layers: Layer[], map: __esri.Map): void {
-  const threeDOnlyLayers = layers.filter((l) => l.onlyThreeD);
-  threeDOnlyLayers.forEach((l) => {
-    const layer = map.findLayerById(l.arcgis_id);
-    if (isDefined(layer)) layer.visible = true;
-  });
+/**
+ * @description 把 ArcGIS layer 實例和自訂 Layer 的 visible 設為 true
+ * @param layer - LoadedLayer object
+ * @param map - ArcGIS Map instance
+ */
+export function showLayer(l: LoadedLayer, map: __esri.Map): void {
+  const layer = map.findLayerById(l.arcgis_id);
+  if (isDefined(layer)) {
+    layer.visible = true;
+    l.visible = true;
+  }
 }
 
-export function setInvisible3DLayers(layers: Layer[], map: __esri.Map): void {
-  const threeDOnlyLayers = layers.filter((l) => l.onlyThreeD);
-  threeDOnlyLayers.forEach((l) => {
-    const layer = map.findLayerById(l.arcgis_id);
-    if (isDefined(layer)) layer.visible = false;
-  });
+/**
+ * @description 把 ArcGIS layer 實例和自訂 Layer 的 visible 設為 false
+ * @param layer - LoadedLayer object
+ * @param map - ArcGIS Map instance
+ */
+export function hideLayer(l: LoadedLayer, map: __esri.Map): void {
+  const layer = map.findLayerById(l.arcgis_id);
+  if (isDefined(layer)) {
+    layer.visible = false;
+    l.visible = false;
+  }
 }
 
 /**
@@ -93,14 +93,18 @@ export async function addLayerToMap(layer: Layer, map: __esri.Map): Promise<void
       return;
   }
 
-  if (arcgisLayer) {
-    updateLayerArcgisId(layer, arcgisLayer.id);
-    map.add(arcgisLayer);
+  // 無法成功建立 arcgisLayer，終止函數
+  if (!isDefined(arcgisLayer)) return;
+  // 掛載到 map 上
+  map.add(arcgisLayer);
 
-    // Handle map view extent for layers that support queryExtent
-    if (layer.type === "FeatureLayer" || layer.type === "GeoJSONLayer") {
-      await handleLayerExtent(arcgisLayer);
-    }
+  // 將自訂 layer 和實體化後取得的 arcgis_id 儲存在 loadedLayers 中
+  const layerStore = useLayerStore();
+  layerStore.addLoadedLayer(layer, arcgisLayer.id);
+
+  // Handle map view extent for layers that support queryExtent
+  if (layer.type === "FeatureLayer" || layer.type === "GeoJSONLayer") {
+    await handleLayerExtent(arcgisLayer);
   }
 }
 
@@ -109,14 +113,15 @@ export async function addLayerToMap(layer: Layer, map: __esri.Map): Promise<void
  * @param layer - Layer object
  * @param map - ArcGIS Map instance
  */
-export async function removeLayerFromMap(layer: Layer, map: __esri.Map): Promise<void> {
-  if (!isDefined(layer.arcgis_id)) return;
-
+export function removeLayerFromMap(layer: LoadedLayer, map: __esri.Map): void {
+  // 從 map 中移除 arcgisLayer
   const arcgisLayer = map.findLayerById(layer.arcgis_id);
   if (!isDefined(arcgisLayer)) return;
-
   map.remove(arcgisLayer);
-  resetLayerArcgisId(layer);
+
+  // 從 loadedLayers 移除該 loadedLayer
+  const layerStore = useLayerStore();
+  layerStore.removeLoadedLayer(layer);
 }
 
 // ===== Layer Creation Helper Functions =====
@@ -157,9 +162,9 @@ async function createFeatureLayer(layer: Layer): Promise<FeatureLayer> {
     const { source, popupTemplate, objectIdField } = parsedData;
 
     // Debug logs
-    console.log("FeatureLayer source:", source);
-    console.log("FeatureLayer popupTemplate:", popupTemplate);
-    console.log("FeatureLayer objectIdField:", objectIdField);
+    // console.log("FeatureLayer source:", source);
+    // console.log("FeatureLayer popupTemplate:", popupTemplate);
+    // console.log("FeatureLayer objectIdField:", objectIdField);
 
     // 從 source 中提取所有欄位名稱
     const fields =
@@ -217,7 +222,7 @@ async function createGeoJSONLayer(layer: Layer): Promise<GeoJSONLayer> {
     const { popupTemplate } = parsedData;
 
     // Debug logs
-    console.log("GeoJSONLayer popupTemplate:", popupTemplate);
+    // console.log("GeoJSONLayer popupTemplate:", popupTemplate);
 
     return new GeoJSONLayer({
       url: layer.url,
@@ -294,26 +299,4 @@ async function handleLayerExtent(layer: __esri.Layer): Promise<void> {
   } catch (error) {
     console.warn(`Failed to handle ${layer.type} extent:`, error);
   }
-}
-
-// ===== Layer Store Helper Functions =====
-
-/**
- * @description 使用傳入的自訂 Layer 介面的 id 找到並更新 layerStore 中對應 layer 的 arcgis_id
- */
-function updateLayerArcgisId(layer: Layer, arcgisId: string): void {
-  const layerStore = useLayerStore();
-  const updatingLayer = layerStore.layers.find((l) => l.id === layer.id);
-  if (!isDefined(updatingLayer)) return;
-  updatingLayer.arcgis_id = arcgisId;
-}
-
-/**
- * @description Reset layer's arcgis_id to null in layerStore
- */
-function resetLayerArcgisId(layer: Layer): void {
-  const layerStore = useLayerStore();
-  const updatingLayer = layerStore.layers.find((l) => l.id === layer.id);
-  if (!isDefined(updatingLayer)) return;
-  updatingLayer.arcgis_id = "";
 }

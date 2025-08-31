@@ -27,10 +27,8 @@
   import { useUiStore } from "@/stores/uiStore";
 
   import { isDefined } from "@/lib/utils/isDefined";
-  import { setVisible3DLayers, setInvisible3DLayers } from "@/lib/maps/arcgisMapController";
 
   const mapStore = useMapStore();
-  const layerStore = useLayerStore();
   const uiStore = useUiStore();
   const { t } = useI18n();
 

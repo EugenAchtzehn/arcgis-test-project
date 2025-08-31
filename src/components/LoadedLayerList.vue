@@ -2,7 +2,7 @@
   <div class="loadedLayers">
     <loaded-layer-item
       class="layerItem"
-      v-for="layer in layerStore.layers"
+      v-for="layer in layerStore.loadedLayers"
       :key="layer.id"
       :layer="layer"
     ></loaded-layer-item>

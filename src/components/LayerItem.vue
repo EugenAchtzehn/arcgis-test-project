@@ -13,14 +13,27 @@
   </div>
 </template>
 <script setup lang="ts">
-  import { Layer } from "@/types/Layer";
+  // ===== stores =====
+  import { useMapStore } from "@/stores/mapStore";
+
+  // ===== 內部元件、函數 =====
+  import { addLayerToMap } from "@/lib/maps/arcgisMapController";
+  import { isDefined } from "@/lib/utils/isDefined";
+
+  // ===== 外部元件、函數 =====
   import { Plus } from "@element-plus/icons-vue";
-  defineProps<{
+
+  // ===== 自定義型別 =====
+  import { Layer } from "@/types/Layer";
+
+  const mapStore = useMapStore();
+  const props = defineProps<{
     layer: Layer;
   }>();
 
   function eClickAddLayer() {
-    console.log("eClickAddLayer");
+    if (!isDefined(mapStore.map)) return;
+    addLayerToMap(props.layer, mapStore.map);
   }
 </script>
 <style scoped>
