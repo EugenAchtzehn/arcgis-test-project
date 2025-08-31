@@ -6,7 +6,7 @@
       :is-hidden="isControlPanelHidden"
       @toggle-panel="toggleControlPanel"
     ></toggle-panel-button>
-    <tabs-control></tabs-control>
+    <tabs-control :is-hidden="isControlPanelHidden"></tabs-control>
     <map-footer></map-footer>
   </main>
 </template>

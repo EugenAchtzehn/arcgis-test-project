@@ -1,5 +1,5 @@
 <template>
-  <div class="tabs__control">
+  <div class="tabs__control" :class="{ 'is-hidden': isHidden }">
     <div
       class="tabs__control-btn"
       :class="{ active: uiStore.activeTab === 'layerList' }"
@@ -30,6 +30,10 @@
   const uiStore = useUiStore();
   const { t } = useI18n();
 
+  defineProps<{
+    isHidden: boolean;
+  }>();
+
   function switchTab(tab: TabValue) {
     uiStore.setActiveTab(tab);
   }
@@ -41,17 +45,22 @@
     right: 304px;
     display: flex;
     flex-direction: column;
-    gap: 0.5rem;
+    gap: 0.25rem;
+    transition: right 0.3s ease-in-out;
     transform: translateY(-50%);
+
+    &.is-hidden {
+      right: 0;
+    }
 
     .tabs__control-btn {
       display: flex;
       align-items: center;
       justify-content: center;
       cursor: pointer;
-      width: 20px;
-      height: 20px;
-      background-color: #fff;
+      width: 24px;
+      height: 32px;
+      background-color: #e8f5e9;
       border-top-left-radius: 0.25rem;
       border-bottom-left-radius: 0.25rem;
 

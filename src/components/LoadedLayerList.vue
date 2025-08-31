@@ -16,7 +16,7 @@
 <style scoped>
   .loadedLayers {
     .layerItem {
-      margin-bottom: 0.5rem;
+      margin-bottom: 0.25rem;
 
       &:last-child {
         margin-bottom: 0;

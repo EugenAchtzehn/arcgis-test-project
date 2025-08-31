@@ -15,7 +15,7 @@
 </script>
 
 <style scoped>
-  .layerList__wrapper {
+  .layerList {
     .layerItem {
       margin-bottom: 0.25rem;
 

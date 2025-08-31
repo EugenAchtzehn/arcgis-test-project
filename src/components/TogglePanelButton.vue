@@ -31,8 +31,8 @@
     justify-content: center;
     cursor: pointer;
     transition: right 0.3s ease-in-out;
-    width: 20px;
-    height: 20px;
+    width: 24px;
+    height: 24px;
     background-color: #ffc408;
     border-top-left-radius: 0.25rem;
     border-bottom-left-radius: 0.25rem;

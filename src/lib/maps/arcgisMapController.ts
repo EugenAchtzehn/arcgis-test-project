@@ -77,7 +77,7 @@ export async function addLayerToMap(layer: Layer, map: __esri.Map): Promise<void
       arcgisLayer = await createFeatureLayer(layer);
       break;
     case "GeoJSONLayer":
-      arcgisLayer = createGeoJSONLayer(layer);
+      arcgisLayer = await createGeoJSONLayer(layer);
       break;
     case "WMTSLayer":
       arcgisLayer = createWMTSLayer(layer);
@@ -202,16 +202,40 @@ async function createFeatureLayer(layer: Layer): Promise<FeatureLayer> {
 }
 
 /**
- * Create GeoJSONLayer
+ * Create GeoJSONLayer with dynamic popupTemplate
  */
-function createGeoJSONLayer(layer: Layer): GeoJSONLayer {
-  return new GeoJSONLayer({
-    url: layer.url,
-    popupTemplate: {
-      title: "Popup-Title",
-      content: "Popup-Content",
-    },
-  });
+async function createGeoJSONLayer(layer: Layer): Promise<GeoJSONLayer> {
+  // Custom / client-side data processing for GeoJSON
+  if (layer.isLocal) {
+    const { data } = await axios.get(layer.url);
+    const parsedData = parseGeoJsonToArcGIS(data);
+
+    if (!isDefined(parsedData)) {
+      throw new Error("Failed to parse GeoJSON data");
+    }
+
+    const { popupTemplate } = parsedData;
+
+    // Debug logs
+    console.log("GeoJSONLayer popupTemplate:", popupTemplate);
+
+    return new GeoJSONLayer({
+      url: layer.url,
+      popupTemplate: popupTemplate || {
+        title: "Feature Information",
+        content: "No properties available",
+      },
+    });
+  } else {
+    // Remote GeoJSON service
+    return new GeoJSONLayer({
+      url: layer.url,
+      popupTemplate: {
+        title: "Feature Information",
+        content: "No properties available",
+      },
+    });
+  }
 }
 
 /**
