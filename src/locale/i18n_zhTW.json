@@ -5,6 +5,7 @@
   },
   "TabsControl": {
     "LayerList": "圖層列表",
-    "LoadedLayers": "已加入圖層"
+    "LoadedLayers": "已加入圖層",
+    "BufferMethods": "環域方法"
   }
 }

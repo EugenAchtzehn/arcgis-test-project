@@ -7,8 +7,8 @@
       @click="switchTab('layerList')"
     >
       <el-icon :size="16" :color="uiStore.activeTab === 'layerList' ? '#fff' : '#333'"
-        ><Folder
-      /></el-icon>
+        ><Folder />
+      </el-icon>
     </div>
     <div
       class="tabs__control-btn"
@@ -17,13 +17,23 @@
       @click="switchTab('loadedLayers')"
     >
       <el-icon :size="16" :color="uiStore.activeTab === 'loadedLayers' ? '#fff' : '#333'"
-        ><Check
-      /></el-icon>
+        ><Check />
+      </el-icon>
+    </div>
+    <div
+      class="tabs__control-btn"
+      :class="{ active: uiStore.activeTab === 'bufferMethods' }"
+      :title="t('TabsControl.BufferMethods')"
+      @click="switchTab('bufferMethods')"
+    >
+      <el-icon :size="16" :color="uiStore.activeTab === 'bufferMethods' ? '#fff' : '#333'"
+        ><Search />
+      </el-icon>
     </div>
   </div>
 </template>
 <script setup lang="ts">
-  import { Folder, Check } from "@element-plus/icons-vue";
+  import { Folder, Check, Search } from "@element-plus/icons-vue";
   import { useUiStore } from "@/stores/uiStore";
   import type { TabValue } from "@/types/UserInterface";
 

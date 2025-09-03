@@ -17,13 +17,14 @@
         <layer-list v-if="uiStore.activeTab === 'layerList'"></layer-list>
         <!-- 已加入圖層 -->
         <loaded-layer-list v-if="uiStore.activeTab === 'loadedLayers'"></loaded-layer-list>
+        <!-- 環域方法 -->
+        <buffer-methods v-if="uiStore.activeTab === 'bufferMethods'"></buffer-methods>
       </div>
     </div>
   </div>
 </template>
 <script setup lang="ts">
   import { useMapStore } from "@/stores/mapStore";
-  import { useLayerStore } from "@/stores/layerStore";
   import { useUiStore } from "@/stores/uiStore";
 
   import { isDefined } from "@/lib/utils/isDefined";

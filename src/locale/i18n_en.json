@@ -5,6 +5,7 @@
   },
   "TabsControl": {
     "layerList": "Layer List",
-    "loadedLayers": "Loaded Layers"
+    "loadedLayers": "Loaded Layers",
+    "bufferMethods": "Buffer Methods"
   }
 }
