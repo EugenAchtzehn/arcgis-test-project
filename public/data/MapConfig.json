@@ -6,38 +6,31 @@
   "layers": [
     {
       "id": "1",
-      "name": "點圖層(FeatureLayer)",
+      "name": "全台釣點(FeatureLayer)",
       "type": "FeatureLayer",
       "isLocal": true,
-      "url": "data/geojson/FireHydrant.json"
+      "url": "data/geojson/Fishing.json"
     },
     {
       "id": "2",
-      "name": "動物園(FeatureLayer)",
+      "name": "保護區Polygon(FeatureLayer)",
       "type": "FeatureLayer",
       "isLocal": true,
-      "url": "data/geojson/TaipeiZoo.json"
+      "url": "data/geojson/ReservesPolyNoZ.json"
     },
     {
       "id": "3",
-      "name": "基隆中正區(FeatureLayer)",
+      "name": "保護區MultiPolygon(FeatureLayer)",
       "type": "FeatureLayer",
       "isLocal": true,
-      "url": "data/geojson/KeelungZZ.json"
+      "url": "data/geojson/ReservesMultiPolyNoZ.json"
     },
     {
       "id": "4",
-      "name": "MRTLine(FeatureLayer)",
+      "name": "鯊魚標放路線(FeatureLayer)",
       "type": "FeatureLayer",
       "isLocal": true,
-      "url": "data/geojson/MrtLine.json"
-    },
-    {
-      "id": "5",
-      "name": "MRTMultiLine(FeatureLayer)",
-      "type": "FeatureLayer",
-      "isLocal": true,
-      "url": "data/geojson/MrtMultiLine.json"
+      "url": "data/geojson/Shark.json"
     },
     {
       "id": "6",
@@ -62,31 +55,31 @@
     },
     {
       "id": "9",
-      "name": "點圖層(GeoJSONLayer)",
+      "name": "全台釣點(GeoJSONLayer)",
       "type": "GeoJSONLayer",
       "isLocal": true,
-      "url": "data/geojson/FireHydrant.json"
+      "url": "data/geojson/Fishing.json"
     },
     {
       "id": "10",
-      "name": "基隆中正區(GeoJSONLayer)",
+      "name": "鯊魚標放路線(GeoJSONLayer)",
       "type": "GeoJSONLayer",
       "isLocal": true,
-      "url": "data/geojson/KeelungZZ.json"
+      "url": "data/geojson/Shark.json"
     },
     {
       "id": "11",
-      "name": "MRTLine(GeoJSONLayer)",
+      "name": "保護區PolygonNoZ(GeoJSONLayer)",
       "type": "GeoJSONLayer",
       "isLocal": true,
-      "url": "data/geojson/MrtLine.json"
+      "url": "data/geojson/ReservesPolyNoZ.json"
     },
     {
       "id": "12",
-      "name": "MRTMultiLine(GeoJSONLayer)",
+      "name": "保護區MultiPolygonNoZ(GeoJSONLayer)",
       "type": "GeoJSONLayer",
       "isLocal": true,
-      "url": "data/geojson/MrtMultiLine.json"
+      "url": "data/geojson/ReservesMultiPolyNoZ.json"
     },
     {
       "id": "13",
@@ -123,7 +116,7 @@
     },
     {
       "id": "16",
-      "name": "USGS 地震(GeoJSONLayer)",
+      "name": "USGS 地震點(GeoJSONLayer)",
       "type": "GeoJSONLayer",
       "isLocal": false,
       "url": "https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/all_month.geojson"
