@@ -10,8 +10,8 @@
       <!-- View or Hide -->
       <div class="layerItem__control control-view" @click="eClickViewOrHide">
         <el-icon :size="16" :color="'#fff'">
-          <Hide v-if="props.layer.visible" />
-          <View v-else />
+          <View v-if="props.layer.visible" />
+          <Hide v-else />
         </el-icon>
       </div>
       <!-- Delete this layer -->
