@@ -201,7 +201,12 @@ export function parseGeoJsonToArcGIS(data: FeatureCollection) {
       break;
 
     case "MultiLineString":
-      source = data.features.flatMap((f: any) => multilinestringToPolylines(f));
+      let lineIdCounter = 1;
+      source = data.features.flatMap((f: any) => {
+        const polylines = multilinestringToPolylines(f, lineIdCounter);
+        lineIdCounter += polylines.length;
+        return polylines;
+      });
       arcgisGeometryType = "polyline";
       break;
 
@@ -211,7 +216,12 @@ export function parseGeoJsonToArcGIS(data: FeatureCollection) {
       break;
 
     case "MultiPolygon":
-      source = data.features.flatMap((f: any) => multipolygonToPolygons(f));
+      let polygonIdCounter = 1;
+      source = data.features.flatMap((f: any) => {
+        const polygons = multipolygonToPolygons(f, polygonIdCounter);
+        polygonIdCounter += polygons.length;
+        return polygons;
+      });
       arcgisGeometryType = "polygon";
       break;
 
@@ -226,6 +236,9 @@ export function parseGeoJsonToArcGIS(data: FeatureCollection) {
   // 尋找適合作為 objectIdField 的欄位
   const propertyKeys = Object.keys(firstFeature.properties || {});
   const objectIdField = findObjectIdField(propertyKeys);
+
+  console.log("Property keys:", propertyKeys);
+  console.log("Selected objectIdField:", objectIdField);
 
   return {
     source,
@@ -276,14 +289,18 @@ export function linestringToPolyline(linestringFeature: any): any {
 /**
  * 將 GeoJSON MultiLineString 轉換為多個 polyline features
  * @param multilinestringFeature - GeoJSON MultiLineString feature
+ * @param startId - 起始 ID 值
  * @returns 多個 polyline features 的陣列
  */
-export function multilinestringToPolylines(multilinestringFeature: any): any[] {
+export function multilinestringToPolylines(
+  multilinestringFeature: any,
+  startId: number = 1
+): any[] {
   const polylines: any[] = [];
 
   // MultiLineString 的 coordinates 結構: [[[line1], [line2], ...]]
   // 每個 line 是一個座標陣列 [[x1,y1], [x2,y2], ...]
-  multilinestringFeature.geometry.coordinates.forEach((line: number[][]) => {
+  multilinestringFeature.geometry.coordinates.forEach((line: number[][], index: number) => {
     // 為每條線創建一個獨立的 feature
     polylines.push({
       geometry: {
@@ -292,8 +309,10 @@ export function multilinestringToPolylines(multilinestringFeature: any): any[] {
         paths: [line],
       },
       attributes: {
-        // 所有線段共享相同的屬性
+        // 所有線段共享相同的屬性，但為每條線生成唯一的 ID
         ...multilinestringFeature.properties,
+        OBJECTID: startId + index, // 使用起始 ID + 索引
+        FID: startId + index,
       },
     });
   });
@@ -304,14 +323,15 @@ export function multilinestringToPolylines(multilinestringFeature: any): any[] {
 /**
  * 將 GeoJSON MultiPolygon 轉換為多個 Polygon features
  * @param multipolygonFeature - GeoJSON MultiPolygon feature
+ * @param startId - 起始 ID 值
  * @returns 多個 Polygon features 的陣列
  */
-export function multipolygonToPolygons(multipolygonFeature: any): any[] {
+export function multipolygonToPolygons(multipolygonFeature: any, startId: number = 1): any[] {
   const polygons: any[] = [];
 
   // MultiPolygon 的 coordinates 結構: [[[polygon1], [polygon2], ...]]
   // 每個 polygon 包含多個 rings（外環 + 內環）
-  multipolygonFeature.geometry.coordinates.forEach((polygon: number[][][]) => {
+  multipolygonFeature.geometry.coordinates.forEach((polygon: number[][][], index: number) => {
     // 每個 polygon 的 rings（外環 + 內環）
     const rings: number[][][] = [];
     polygon.forEach((ring: number[][]) => {
@@ -326,8 +346,10 @@ export function multipolygonToPolygons(multipolygonFeature: any): any[] {
         rings,
       },
       attributes: {
-        // 所有 polygon 共享相同的屬性
+        // 所有 polygon 共享相同的屬性，但為每個 polygon 生成唯一的 ID
         ...multipolygonFeature.properties,
+        OBJECTID: startId + index, // 使用起始 ID + 索引
+        FID: startId + index,
       },
     });
   });
