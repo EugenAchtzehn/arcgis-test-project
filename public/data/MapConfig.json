@@ -120,6 +120,20 @@
       "type": "GeoJSONLayer",
       "isLocal": false,
       "url": "https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/all_month.geojson"
+    },
+    {
+      "id": "17",
+      "name": "USGS(KMLLayer) only for MapView",
+      "type": "KMLLayer",
+      "isLocal": false,
+      "url": "https://earthquake.usgs.gov/fdsnws/event/1/query?format=kml&minmagnitude=5.8"
+    },
+    {
+      "id": "18",
+      "name": "reservoir (KML as GeoJSON)",
+      "type": "KMLLayer",
+      "isLocal": true,
+      "url": "data/kml/reservoir.kml"
     }
   ]
 }
