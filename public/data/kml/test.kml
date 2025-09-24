@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<kml xmlns="http://www.opengis.net/kml/2.2">
+  <Document>
+    <name>Test KML Layer</name>
+    <description>Simple test KML file for ArcGIS</description>
+
+    <Placemark>
+      <name>Test Point</name>
+      <description>This is a test point</description>
+      <Point>
+        <coordinates>121.5654,25.0330,0</coordinates>
+      </Point>
+    </Placemark>
+
+    <Placemark>
+      <name>Test Line</name>
+      <description>This is a test line</description>
+      <LineString>
+        <coordinates>121.5654,25.0330,0 121.5754,25.0430,0</coordinates>
+      </LineString>
+    </Placemark>
+
+    <Placemark>
+      <name>Test Polygon</name>
+      <description>This is a test polygon</description>
+      <Polygon>
+        <outerBoundaryIs>
+          <LinearRing>
+            <coordinates>121.5554,25.0230,0 121.5754,25.0230,0 121.5754,25.0430,0 121.5554,25.0430,0 121.5554,25.0230,0</coordinates>
+          </LinearRing>
+        </outerBoundaryIs>
+      </Polygon>
+    </Placemark>
+  </Document>
+</kml>

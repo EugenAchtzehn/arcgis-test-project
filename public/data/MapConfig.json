@@ -134,6 +134,26 @@
       "type": "KMLLayer",
       "isLocal": true,
       "url": "data/kml/reservoir.kml"
+    },
+    {
+      "id": "19",
+      "name": "產業園區 (KML as GeoJSON)",
+      "type": "KMLLayer",
+      "isLocal": true,
+      "url": "data/kml/各產業園區範圍圖_1130624.kmz",
+      "params": {
+        "isZipped": true
+      }
+    },
+    {
+      "id": "20",
+      "name": "宜蘭縣飲用水保護區 (KML as GeoJSON)",
+      "type": "KMLLayer",
+      "isLocal": true,
+      "url": "data/kml/宜蘭縣飲用水保護區及取水口一定距離.kmz",
+      "params": {
+        "isZipped": true
+      }
     }
   ]
 }

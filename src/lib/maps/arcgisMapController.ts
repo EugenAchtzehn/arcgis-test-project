@@ -16,6 +16,7 @@ import { useMapStore } from "@/stores/mapStore";
 import { isDefined } from "@/lib/utils/isDefined";
 import { parseGeoJsonToArcGIS } from "@/lib/maps/processGeoJson";
 import { createGeojsonUrlFromKml } from "@/lib/maps/processKml";
+import { unzipKmzToKml } from "@/lib/maps/unzipKmzToKml";
 
 // ===== imported types =====
 import type { FeatureCollection } from "geojson";
@@ -253,17 +254,44 @@ async function createGeoJSONLayer(layer: Layer): Promise<GeoJSONLayer> {
  */
 async function createKMLLayer(layer: Layer): Promise<KMLLayer | GeoJSONLayer> {
   if (layer.isLocal) {
-    // Local 使用 kml to geojson 的方式來讀取
-    const { data } = await axios.get(layer.url);
-    const url = createGeojsonUrlFromKml(data);
+    let builtUrl: string;
+
+    try {
+      // Local 使用 kml to geojson 的方式來讀取
+      if (layer.params?.isZipped) {
+        // 處理 KMZ 檔案（壓縮格式）
+        const res = await axios.get(layer.url, { responseType: "arraybuffer" });
+        const kmzData: ArrayBuffer = res.data;
+        const convertedKml = await unzipKmzToKml(kmzData);
+        builtUrl = createGeojsonUrlFromKml(convertedKml);
+      } else {
+        // 處理 KML 檔案（純文字格式）
+        const res = await axios.get(layer.url, { responseType: "text" });
+        const kmlData: string = res.data;
+        builtUrl = createGeojsonUrlFromKml(kmlData);
+      }
+    } catch (error) {
+      console.error("Failed to process KML/KMZ file:", error);
+      throw new Error(`無法處理 KML 檔案: ${layer.url}`);
+    }
+
+    // 儘管 createGeojsonUrlFromKml 可以轉出含有不同幾何型態的 FeatureCollection，但 GeoJSONLayer 只單一的幾何型態
+    /**
+     * ===== Limitations =====
+     * Each GeoJSONLayer will only accept one geometry type.
+     * If there are multiple types of geometries, only the type specified in geometryType will be loaded.
+     * If geometryType is not specified, it will default to the geometry type of the first geometry.
+     * GeometryCollection is not supported.
+     * Using Object as attribute value for GeoJSON features is not supported.
+     */
     return new GeoJSONLayer({
-      url: url,
+      url: builtUrl,
       elevationInfo: {
         mode: "on-the-ground",
       },
       popupTemplate: {
         title: "Feature Information",
-        content: "No properties available",
+        content: "Wait for processing...",
       },
     });
   } else {

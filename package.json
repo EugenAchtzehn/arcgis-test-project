@@ -19,6 +19,7 @@
     "@tmcw/togeojson": "^4.1.0",
     "axios": "^1.11.0",
     "element-plus": "^2.10.4",
+    "jszip": "^3.10.1",
     "pinia": "^3.0.3",
     "urijs": "^1.19.11",
     "uuid": "^11.1.0",
