@@ -15,7 +15,7 @@ import { useLayerStore } from "@/stores/layerStore";
 import { useMapStore } from "@/stores/mapStore";
 import { isDefined } from "@/lib/utils/isDefined";
 import { parseGeoJsonToArcGIS } from "@/lib/maps/processGeoJson";
-import { createGeojsonUrlFromKml } from "@/lib/maps/processKml";
+import { createGeojsonUrlFromKml, revokeGeojsonUrl } from "@/lib/maps/processKml";
 import { unzipKmzToKml } from "@/lib/maps/unzipKmzToKml";
 
 // ===== imported types =====
@@ -123,6 +123,12 @@ export function removeLayerFromMap(layer: LoadedLayer, map: __esri.Map): void {
   // 從 map 中移除 arcgisLayer
   const arcgisLayer = map.findLayerById(layer.arcgis_id);
   if (!isDefined(arcgisLayer)) return;
+
+  // 如果是 GeoJSONLayer 且使用 blob URL，釋放記憶體
+  if (arcgisLayer instanceof GeoJSONLayer && (arcgisLayer as any).url?.startsWith("blob:")) {
+    revokeGeojsonUrl((arcgisLayer as any).url);
+  }
+
   map.remove(arcgisLayer);
 
   // 從 loadedLayers 移除該 loadedLayer
@@ -366,4 +372,17 @@ async function handleLayerExtent(layer: __esri.Layer): Promise<void> {
   } catch (error) {
     console.warn(`Failed to handle ${layer.type} extent:`, error);
   }
+}
+
+/**
+ * 清理所有 blob URL 以釋放記憶體
+ * 在應用程式關閉或需要清理記憶體時調用
+ */
+export function cleanupBlobUrls(map: __esri.Map): void {
+  const layers = map.layers.toArray();
+  layers.forEach((layer) => {
+    if (layer instanceof GeoJSONLayer && (layer as any).url?.startsWith("blob:")) {
+      revokeGeojsonUrl((layer as any).url);
+    }
+  });
 }
